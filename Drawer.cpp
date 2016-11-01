@@ -67,22 +67,6 @@ ratio( ratio_ ) {
 
 }
 
-Drawer::PlayingEffect::PlayingEffect( ) :
-playing_handle( -1 ),
-scale( Vector( 1, 1, 1 ) ),
-pos( Vector( 0, 0, 0 ) ),
-dir( Vector( 0, 0, 0 ) ) {
-
-}
-
-Drawer::PlayingEffect::PlayingEffect( int playing_handle_, Vector scale_,Vector pos_, Vector dir_ ) :
-playing_handle ( playing_handle_ ),
-scale( scale_ ),
-pos( pos_ ),
-dir( dir_ ) {
-
-}
-
 Drawer::Billboard::Billboard( ) :
 size( 0 ),
 res( 0 ),
@@ -119,11 +103,7 @@ void Drawer::initialize( ) {
 	_sprite_idx = 0;
 	_model_mv1_idx = 0;
 	_billboard_idx = 0;
-	_effect_idx = 0;
 
-	_shadow_model = ModelPtr( new Model );
-	_shadow_model->alloc( SHADOW_NUM * 2 );
-	_shadow_handle = _shadow_model->getTextureHandle( SHADOW_TEXTURE_PATH );
 	_refresh_count = 0;
 	_fps = FPS;
 	_start_time = 0;
@@ -134,7 +114,6 @@ void Drawer::update( ) {
 	
 	flip( );
 
-	drawShadow( );
 	drawModelMV1( );
 	drawModelMDL( );
 	drawBillboard( );
@@ -150,13 +129,6 @@ void Drawer::drawModelMDL( ) {
 		_model[ type ]->draw( );
 	}
 	_model_mdl_idx = 0;
-}
-
-
-void Drawer::drawShadow( ) {
-	_shadow_model->setPolygonNum( _shadow_idx * 2 );
-	_shadow_model->draw( _shadow_handle, true );
-	_shadow_idx = 0;
 }
 
 void Drawer::drawModelMV1( ) {
@@ -194,14 +166,6 @@ void Drawer::drawModelMV1( ) {
 }
 
 void Drawer::drawSprite( ) {
-	if ( _back ) {
-		ApplicationPtr fw = Application::getInstance( );
-		DrawBox( 0, 0,
-			fw->getWindowWidth( ),
-			fw->getWindowHeight( ),
-			GetColor( 0, 0, 0 ), TRUE );
-	}
-	_back = false;
 
 	for ( int i = 0; i < _sprite_idx; i++ ) {
 		const Sprite& sprite = _sprite[ i ];
@@ -309,25 +273,6 @@ void Drawer::setModelMV1( const ModelMV1& model ) {
 	assert( _model_mv1_idx < MODEL_MV1_NUM );
 	_model_mv1[ _model_mv1_idx ] = model;
 	_model_mv1_idx++;
-}
-
-void Drawer::setShadow( const Vector& pos ){
-	assert( _shadow_idx < SHADOW_NUM );
-	Model::VERTEX vertex[ 4 ];
-	for ( int i = 0; i < 4; i++ ) {
-		vertex[ i ].pos = Vector( i / 2 * SHADOW_RADIUS - SHADOW_RADIUS / 2, i % 2 * SHADOW_RADIUS - SHADOW_RADIUS / 2, 0 ) + pos;
-		vertex[ i ].u = i % 2;
-		vertex[ i ].v = i / 2;
-	}
-		
-	_shadow_model->set( _shadow_idx * 6 + 0, vertex[ 0 ] ); 
-	_shadow_model->set( _shadow_idx * 6 + 1, vertex[ 2 ] ); 
-	_shadow_model->set( _shadow_idx * 6 + 2, vertex[ 1 ] ); 
-	_shadow_model->set( _shadow_idx * 6 + 3, vertex[ 1 ] ); 
-	_shadow_model->set( _shadow_idx * 6 + 4, vertex[ 2 ] ); 
-	_shadow_model->set( _shadow_idx * 6 + 5, vertex[ 3 ] ); 
-
-	_shadow_idx++;
 }
 
 void Drawer::setModelMDL( const ModelMDL& model_mdl ) {

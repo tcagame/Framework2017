@@ -39,8 +39,9 @@ public:
 		BLEND blend;
 		double ratio;
 		Sprite( );
-		Sprite( Transform trans_, int res_, BLEND blend_, double ratio_ );
+		Sprite( Transform trans_, int res_, BLEND blend_ = BLEND_NONE, double ratio_ = 1.0 );
 	};
+
 	struct ModelMV1 {
 		Vector pos;
 		Vector dir;
@@ -49,17 +50,19 @@ public:
 		ModelMV1( );
 		ModelMV1( Vector pos_, Vector dir_, int motion_, double time_ );
 	};
+	struct MV1_ID {
+		int body;
+		int body_anim;
+		double scale;
+	};
+
 	struct ModelMDL {
 		Vector pos;
 		int type;
 		ModelMDL( );
 		ModelMDL( Vector pos_, int type_ );
 	};
-	struct MV1_ID {
-		int body;
-		int body_anim;
-		double scale;
-	};
+
 	struct Billboard {
 		Vector pos;
 		double size;
@@ -69,14 +72,6 @@ public:
 		Billboard( );
 		Billboard( Vector pos_, double size_, int res, BLEND blend_, double ratio_ );
 	};
-	struct PlayingEffect {
-		int playing_handle;
-		Vector scale;
-		Vector pos;
-		Vector dir;
-		PlayingEffect( );
-		PlayingEffect( int playing_effect_, Vector scale_, Vector pos_, Vector dir_ );
-	};
 	
 public:
 	void initialize( );
@@ -84,25 +79,21 @@ public:
 	void loadMV1Model( int motion, const char* filename, double scale );
 	void loadMDLModel( int type, const char* filename, const char* texture_filename, Matrix matrix = Matrix( ) );
 	void loadGraph( int res, const char* filename );
-	void loadEffect( int res,  const char* filename );
 	double getEndAnimTime( int res );
 	void setSprite( const Sprite& sprite );
 	void setModelMV1( const ModelMV1& model );
 	void setModelMDL( const ModelMDL& model_mdl );
-	void setShadow( const Vector& pos );
 	void setBillboard( const Billboard& billboard );
 	void drawString( int x, int y, const char* string, ... );
 	void drawLine( int x1, int y1, int x2, int y2 );
 
-	bool _back;
-	void setBack( ) { _back = true; };
 private:
 	void drawModelMV1( );
 	void drawModelMDL( );
 	void drawSprite( );
 	void drawBillboard( );
-	void drawShadow( );
 	void flip( );
+
 private:
 	const char* _directory;
 
@@ -120,15 +111,9 @@ private:
 	static const int GRAPHIC_ID_NUM = 1000;
 	std::array< int, GRAPHIC_ID_NUM > _graphic_id;
 
-	static const int EFFECT_ID_NUM = 1000;
-	std::array< int, EFFECT_ID_NUM > _effect_id;
-
 	static const int BILLBOARD_NUM = 1000;
 	std::array< Billboard, BILLBOARD_NUM > _billboard;
 	int _billboard_idx;
-
-	std::array< PlayingEffect, EFFECT_ID_NUM > _effect;
-	int _effect_idx;
 
 	static const int MODEL_MDL_NUM = 500;
 	std::array< ModelMDL, MODEL_MDL_NUM > _model_mdl;
@@ -137,13 +122,7 @@ private:
 	static const int MODEL_NUM = 20;
 	std::array< ModelPtr, MODEL_NUM > _model;
 
-	static const int SHADOW_NUM = 1000;
-	ModelPtr _shadow_model;
-	int _shadow_idx;
-
-
 	int _refresh_count;
-	int _shadow_handle;
 	int _start_time;
 	double _fps;
 };
