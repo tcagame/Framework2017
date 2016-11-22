@@ -75,7 +75,7 @@ Keyboard::Keyboard( ) {
 	_convert[ "ENTER" ] = KEY_INPUT_RETURN;
 	_convert[ "ESC" ] = KEY_INPUT_ESCAPE;
 	_convert[ "BACK_SPACE" ] = KEY_INPUT_BACK;
-
+	_convert[ "SPACE" ] = KEY_INPUT_SPACE;
 }
 
 Keyboard::~Keyboard( ) {
