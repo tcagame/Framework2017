@@ -5,12 +5,12 @@
 const double PI  = 3.1415926535897932384626433832795;
 const double PI2 = PI * 2;
 
-const unsigned int RATIO = 1 << 16;
-const unsigned int MARGIN = 1 << 15;
+const unsigned int VECTOR_RATIO = 1 << 16;
+const unsigned int VECTOR_MARGIN = 1 << 15;
 
 inline double round(const double in_value) {
-	int in = (int)(in_value * RATIO);
-	return (double)in / RATIO;
+	int in = (int)(in_value * VECTOR_RATIO);
+	return (double)in / VECTOR_RATIO;
 }
 
 struct Vector {
@@ -159,12 +159,12 @@ struct Vector {
 
 	// ƒCƒR[ƒ‹
 	inline bool operator==(const Vector& inVec) const {
-		int sx = (int)(this->x * MARGIN);
-		int sy = (int)(this->y * MARGIN);
-		int sz = (int)(this->z * MARGIN);
-		int dx = (int)(inVec.x * MARGIN);
-		int dy = (int)(inVec.y * MARGIN);
-		int dz = (int)(inVec.z * MARGIN);
+		int sx = (int)(this->x * VECTOR_MARGIN);
+		int sy = (int)(this->y * VECTOR_MARGIN);
+		int sz = (int)(this->z * VECTOR_MARGIN);
+		int dx = (int)(inVec.x * VECTOR_MARGIN);
+		int dy = (int)(inVec.y * VECTOR_MARGIN);
+		int dz = (int)(inVec.z * VECTOR_MARGIN);
 		return
 			sx == dx &&
 			sy == dy &&
