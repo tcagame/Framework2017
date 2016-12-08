@@ -43,12 +43,12 @@ public:
 	};
 
 	struct ModelMV1 {
-		Vector pos;
 		Matrix matrix;
 		int motion;
 		double time;
+		bool dx_mat;
 		ModelMV1( );
-		ModelMV1( Vector pos_, Matrix matrix_, int motion_, double time_ );
+		ModelMV1( Matrix matrix_, int motion_, double time_ );
 	};
 	struct MV1_ID {
 		int body;

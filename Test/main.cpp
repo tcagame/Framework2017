@@ -53,20 +53,23 @@ public:
 		app->setCamera( Vector( 0, 500, 0 ), Vector( ) );
 		*/
 
+
 		static double r = 0;
+		static int time;
+		time++;
 		r += 0.01;
 		Matrix mat = Matrix::makeTransformRotation( Vector( 0, 1, 0 ), r );
+		//Matrix mat = Matrix::makeTransformTranslation( Vector( 100, 0, 0 ) );
 
+		//Matrix
 		Drawer::ModelMV1 model;
 		model.matrix = mat;
 		model.motion = 0;
-		model.pos = Vector( );
 		model.time = 0;
 		drawer->setModelMV1( model );
-		
 		ApplicationPtr app = Application::getInstance( );
 		app->setCameraUp( Vector( 0, 1, 0 ) );
-		app->setCamera( Vector( 500, 20, 500 ), Vector( ) );
+		app->setCamera( Vector( 100, 20, 500 ), Vector( ) );
 	}
 };
 

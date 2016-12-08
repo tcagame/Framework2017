@@ -35,8 +35,7 @@ motion( -1 ),
 time( 0 ){
 }
 
-Drawer::ModelMV1::ModelMV1( Vector pos_, Matrix matrix_, int motion_, double time_ ) :
-pos( pos_ ),
+Drawer::ModelMV1::ModelMV1( Matrix matrix_, int motion_, double time_ ) :
 matrix( matrix_ ),
 motion( motion_ ),
 time( time_ ) {
@@ -136,19 +135,14 @@ void Drawer::drawModelMV1( ) {
 		int id = _model_id[ _model_mv1[ i ].motion ].body;
 		int anim = _model_id[ _model_mv1[ i ].motion ].body_anim;
 		double time = _model_mv1[ i ].time;
-		Vector pos = _model_mv1[ i ].pos;
 		Matrix mat = _model_mv1[ i ].matrix;
 		MATRIX matrix = MGetIdent( );
 		for( int j = 0; j < 4 * 4; j++ ) {
-			int n = i % 4;
-			int m = i / 4;
+			int n = j % 4;
+			int m = j / 4;
 			matrix.m[ m ][ n ] = ( float )mat.data[ n ][ m ];
 		}
-
 		MV1SetMatrix( id, matrix );
-
-		// ƒAƒjƒ[ƒVƒ‡ƒ“ŽžŠÔÝ’è
-		MV1SetAttachAnimTime( id, anim, ( float )time );
 
 		// ‚R‚cƒ‚ƒfƒ‹‚Ì•`‰æ
 		MV1DrawModel( id ) ;
