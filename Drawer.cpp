@@ -35,9 +35,9 @@ motion( -1 ),
 time( 0 ){
 }
 
-Drawer::ModelMV1::ModelMV1( Vector pos_, Vector dir_, int motion_, double time_ ) :
+Drawer::ModelMV1::ModelMV1( Vector pos_, Matrix matrix_, int motion_, double time_ ) :
 pos( pos_ ),
-dir( dir_ ),
+matrix( matrix_ ),
 motion( motion_ ),
 time( time_ ) {
 }
@@ -137,23 +137,14 @@ void Drawer::drawModelMV1( ) {
 		int anim = _model_id[ _model_mv1[ i ].motion ].body_anim;
 		double time = _model_mv1[ i ].time;
 		Vector pos = _model_mv1[ i ].pos;
-		Vector dir = _model_mv1[ i ].dir;
-		if ( ( float )dir.x == 0 ) {
-			dir.x = 0.001;
-		}
+		Matrix mat = _model_mv1[ i ].matrix;
 		MATRIX matrix = MGetIdent( );
-		//上をZにするための回転
-		matrix = MMult( matrix, MGetRotX( ( float )( PI / 2 ) ) );
-		matrix = MMult( matrix, MGetRotY( ( float )( PI2 ) ) );
-		//回転
-		float angle = ( float )dir.angle( Vector( 0, 1, 0 ) );
-		Vector axis = dir.cross( Vector( 0, -1, 0 ) );
-		matrix = MMult( matrix, MGetRotAxis( VGet( ( float )axis.x, ( float )axis.y, ( float )axis.z ), angle ) );
-		//サイズ変換
-		float scale = ( float )_model_id[ _model_mv1[ i ].motion ].scale;
-		matrix = MMult( matrix, MGetScale( VGet( scale, scale, scale ) ) );
-		// 座標変換
-		matrix = MMult( matrix, MGetTranslate( VGet( ( float )pos.x, ( float )pos.y, ( float )pos.z ) ) );
+		for( int j = 0; j < 4 * 4; j++ ) {
+			int n = i % 4;
+			int m = i / 4;
+			matrix.m[ m ][ n ] = ( float )mat.data[ n ][ m ];
+		}
+
 		MV1SetMatrix( id, matrix );
 
 		// アニメーション時間設定

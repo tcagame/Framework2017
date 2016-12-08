@@ -44,11 +44,11 @@ public:
 
 	struct ModelMV1 {
 		Vector pos;
-		Vector dir;
+		Matrix matrix;
 		int motion;
 		double time;
 		ModelMV1( );
-		ModelMV1( Vector pos_, Vector dir_, int motion_, double time_ );
+		ModelMV1( Vector pos_, Matrix matrix_, int motion_, double time_ );
 	};
 	struct MV1_ID {
 		int body;

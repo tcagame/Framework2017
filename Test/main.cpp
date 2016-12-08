@@ -15,6 +15,7 @@ public:
 	void initialize( ) {
 		DrawerPtr drawer = Drawer::getTask( );
 		drawer->loadGraph( 0, "Yokai_OBJ_myCharacter.png" );
+		drawer->loadMV1Model( 0, "enemy_goblin_attack.mv1", 1.0 );
 	}
 
 	void update( ) {
@@ -36,6 +37,36 @@ public:
 		sprite.trans = trans;
 
 		drawer->setSprite( sprite );
+
+		/*
+		Drawer::ModelMV1 model;
+		model.dir = Vector( 1, 0, 0 );
+		model.motion = 0;
+		model.pos = Vector( );
+		model.time = 0;
+		drawer->setModelMV1( model );
+		
+		ApplicationPtr app = Application::getInstance( );
+		app->setCameraUp( Vector( 0, 0, 1 ) );
+		static double length = 0.0;
+		length += 0.01;
+		app->setCamera( Vector( 0, 500, 0 ), Vector( ) );
+		*/
+
+		static double r = 0;
+		r += 0.01;
+		Matrix mat = Matrix::makeTransformRotation( Vector( 0, 1, 0 ), r );
+
+		Drawer::ModelMV1 model;
+		model.matrix = mat;
+		model.motion = 0;
+		model.pos = Vector( );
+		model.time = 0;
+		drawer->setModelMV1( model );
+		
+		ApplicationPtr app = Application::getInstance( );
+		app->setCameraUp( Vector( 0, 1, 0 ) );
+		app->setCamera( Vector( 500, 20, 500 ), Vector( ) );
 	}
 };
 
