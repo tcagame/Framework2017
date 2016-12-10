@@ -143,7 +143,7 @@ void Drawer::drawModelMV1( ) {
 			matrix.m[ m ][ n ] = ( float )mat.data[ n ][ m ];
 		}
 		MV1SetMatrix( id, matrix );
-
+		MV1SetAttachAnimTime( id, anim, ( float )time );
 		// ‚R‚cƒ‚ƒfƒ‹‚Ì•`‰æ
 		MV1DrawModel( id ) ;
 	}
@@ -204,7 +204,7 @@ void Drawer::drawBillboard( ) {
 	_billboard_idx = 0;
 }
 
-void Drawer::loadMV1Model( int motion, const char* filename, double scale ) {
+void Drawer::loadMV1Model( int motion, const char* filename ) {
 	std::string path = _directory;
 	path += "/";
 	path += filename;
@@ -218,7 +218,6 @@ void Drawer::loadMV1Model( int motion, const char* filename, double scale ) {
 	}
 	int& anim = _model_id[ motion ].body_anim;
 	anim = MV1AttachAnim( id, 0, -1, FALSE );
-	_model_id[ motion ].scale = scale;
 }
 
 void Drawer::loadMDLModel( int type, const char* model_filename, const char* texture_filename, Matrix matrix ) {

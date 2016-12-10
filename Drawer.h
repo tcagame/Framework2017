@@ -76,7 +76,7 @@ public:
 public:
 	void initialize( );
 	void update( );
-	void loadMV1Model( int motion, const char* filename, double scale );
+	void loadMV1Model( int motion, const char* filename );
 	void loadMDLModel( int type, const char* filename, const char* texture_filename, Matrix matrix = Matrix( ) );
 	void loadGraph( int res, const char* filename );
 	double getEndAnimTime( int res );

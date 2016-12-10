@@ -15,7 +15,7 @@ public:
 	void initialize( ) {
 		DrawerPtr drawer = Drawer::getTask( );
 		drawer->loadGraph( 0, "Yokai_OBJ_myCharacter.png" );
-		drawer->loadMV1Model( 0, "enemy_goblin_attack.mv1", 1.0 );
+		drawer->loadMV1Model( 0, "enemy_goblin_attack.mv1" );
 	}
 
 	void update( ) {
