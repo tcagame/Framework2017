@@ -57,9 +57,10 @@ public:
 		static double r = 0;
 		static int time;
 		time++;
-		r += 0.01;
-		Matrix mat = Matrix::makeTransformRotation( Vector( 0, 1, 0 ), r );
-		//Matrix mat = Matrix::makeTransformTranslation( Vector( 100, 0, 0 ) );
+		r += 90;
+		Matrix mat = Matrix::makeTransformRotation( Vector( 0, 1, 0 ), PI / 2 );
+		Matrix mat_trans = Matrix::makeTransformTranslation( Vector( 100, -100, 50 ) );
+		mat = mat * mat_trans;
 
 		//Matrix
 		Drawer::ModelMV1 model;

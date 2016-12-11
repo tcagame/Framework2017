@@ -137,15 +137,20 @@ void Drawer::drawModelMV1( ) {
 		double time = _model_mv1[ i ].time;
 		Matrix mat = _model_mv1[ i ].matrix;
 		MATRIX matrix = MGetIdent( );
-		for( int j = 0; j < 4 * 4; j++ ) {
-			int n = j % 4;
-			int m = j / 4;
+		for( int j = 0; j < 3 * 3; j++ ) {
+			int n = j % 3;
+			int m = j / 3;
 			matrix.m[ m ][ n ] = ( float )mat.data[ n ][ m ];
 		}
+		for ( int j = 0; j < 4; j++ ) {
+			matrix.m[ j ][ 3 ] = ( float )mat.data[ j ][ 3 ];
+			matrix.m[ 3 ][ j ] = ( float )mat.data[ 3 ][ j ];
+		}
+
 		MV1SetMatrix( id, matrix );
 		MV1SetAttachAnimTime( id, anim, ( float )time );
 		// ‚R‚cƒ‚ƒfƒ‹‚Ì•`‰æ
-		MV1DrawModel( id ) ;
+		MV1DrawModel( id );
 	}
 	_model_mv1_idx = 0;
 }
