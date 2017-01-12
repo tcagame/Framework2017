@@ -96,9 +96,14 @@ Drawer::~Drawer( ) {
 }
 
 void Drawer::initialize( ) {
+	for ( int i = 0; i < GRAPHIC_ID_NUM; i++ ) {
+		_graphic_id[ i ] = -1;
+	}
+
 	for ( int i = 0; i < MODEL_ID_NUM; i++ ) {
 		_model_id[ i ].body = -1;
 	}
+
 	_sprite_idx = 0;
 	_model_mv1_idx = 0;
 	_billboard_idx = 0;
@@ -249,6 +254,22 @@ void Drawer::loadGraph( int res, const char * filename ) {
 		path = "../" + path;
 		_graphic_id[ res ] = LoadGraph( path.c_str( ) );
 		assert( _graphic_id[ res ] >= 0 );
+	}
+}
+
+void Drawer::unloadGraph( int res ) {
+	if ( _graphic_id[ res ] >= 0 ) {
+		DeleteGraph( _graphic_id[ res ] );
+	}
+	_graphic_id[ res ] = -1;
+}
+
+void Drawer::unloadAllGraph( ) {
+	for ( int i = 0; i < GRAPHIC_ID_NUM; i++ ) {
+		if ( _graphic_id[ i ] >= 0 ) {
+			DeleteGraph( _graphic_id[ i ] );
+		}
+		_graphic_id[ i ] = -1;
 	}
 }
 

@@ -79,6 +79,8 @@ public:
 	void loadMV1Model( int motion, const char* filename );
 	void loadMDLModel( int type, const char* filename, const char* texture_filename, Matrix matrix = Matrix( ) );
 	void loadGraph( int res, const char* filename );
+	void unloadGraph( int res );
+	void unloadAllGraph( );
 	double getEndAnimTime( int res );
 	void setSprite( const Sprite& sprite );
 	void setModelMV1( const ModelMV1& model );
