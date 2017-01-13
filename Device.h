@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Task.h"
+#include "Network.h"
 #include <array>
 
 const int MAX_JOYPAD_USE_NUM = 16;
