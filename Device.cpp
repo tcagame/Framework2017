@@ -2,7 +2,6 @@
 #include "mathmatics.h"
 #include "Application.h"
 #include "DxLib.h"
-#include "Network.h"
 
 const int JOYPADKEY[ MAX_JOYPAD_USE_NUM ] = {
 	DX_INPUT_KEY_PAD1,
@@ -38,7 +37,8 @@ void Device::initialize( ) {
 		_data[ i ].y = 0;
 		_data[ i ].button = 0;
 	}
-	_num = GetJoypadNum( );
+
+	resetup( );
 }
 
 Device::~Device( ) {
@@ -47,6 +47,9 @@ Device::~Device( ) {
 void Device::resetup( ) {
 	ReSetupJoypad( );
 	_num = GetJoypadNum( );
+	if ( _num < 1 ) {
+		_num = 1; // キーボード対応
+	}
 }
 
 char Device::getDirX( int idx ) const {
