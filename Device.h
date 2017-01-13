@@ -1,8 +1,9 @@
 #pragma once
 
 #include "Task.h"
-#include "Network.h"
-#include <string>
+#include <array>
+
+const int MAX_JOYPAD_USE_NUM = 16;
 
 PTR( Device );
 
@@ -14,11 +15,12 @@ public:
 	Device( );
 	virtual ~Device( );
 public:
+	void initialize( );
 	virtual void update( );
 public:
-	char getDirX( ) const;
-	char getDirY( ) const;
-	unsigned char getButton( ) const;
+	char getDirX( int idx = 0 ) const;
+	char getDirY( int idx = 0 ) const;
+	unsigned char getButton( int idx = 0 ) const;
 public:
 	void resetup( );
 private:
@@ -28,5 +30,6 @@ private:
 		unsigned char button;
 	};
 private:
-	DATA _data;
+	std::array< DATA, MAX_JOYPAD_USE_NUM > _data;
+	int _num;
 };

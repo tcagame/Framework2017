@@ -2,10 +2,10 @@
 #include "mathmatics.h"
 #include "Application.h"
 #include "DxLib.h"
+#include "Network.h"
 
-const int MAX_JOYPAD_USE_NUM = 16;
 const int JOYPADKEY[ MAX_JOYPAD_USE_NUM ] = {
-	DX_INPUT_PAD1,
+	DX_INPUT_KEY_PAD1,
 	DX_INPUT_PAD2,
 	DX_INPUT_PAD3,
 	DX_INPUT_PAD4,
@@ -30,9 +30,15 @@ DevicePtr Device::getTask( ) {
 
 
 Device::Device( ) {
-	_data.x = 0;
-	_data.y = 0;
-	_data.button = 0;
+}
+
+void Device::initialize( ) {
+	for ( int i = 0; i < MAX_JOYPAD_USE_NUM; i++ ) {
+		_data[ i ].x = 0;
+		_data[ i ].y = 0;
+		_data[ i ].button = 0;
+	}
+	_num = GetJoypadNum( );
 }
 
 Device::~Device( ) {
@@ -40,47 +46,50 @@ Device::~Device( ) {
 
 void Device::resetup( ) {
 	ReSetupJoypad( );
+	_num = GetJoypadNum( );
 }
 
-char Device::getDirX( ) const {
-	return _data.x;
+char Device::getDirX( int idx ) const {
+	return _data[ idx ].x;
 }
 
-char Device::getDirY( ) const {
-	return _data.y;
+char Device::getDirY( int idx ) const {
+	return _data[ idx ].y;
 }
 
-unsigned char Device::getButton( ) const {
-	return _data.button;
+unsigned char Device::getButton( int idx ) const {
+	return _data[ idx ].button;
 }
 
 void Device::update( ) {
-	int key = GetJoypadInputState( DX_INPUT_KEY_PAD1 );
-	Vector vec;
-	int x = 0, y = 0;
-	GetJoypadAnalogInput( &x, &y, DX_INPUT_KEY_PAD1 );
-	vec.x = x;
-	vec.y = y;
-	vec.x += +( ( key & PAD_INPUT_RIGHT ) != 0 );
-	vec.x += -( ( key & PAD_INPUT_LEFT  ) != 0 );
-	vec.y += +( ( key & PAD_INPUT_DOWN  ) != 0 );
-	vec.y += -( ( key & PAD_INPUT_UP    ) != 0 );
-	vec = vec.normalize( ) * 100;
+	for ( int i = 0; i < _num; i++ ) {
+		int key = GetJoypadInputState( JOYPADKEY[ i ] );
+		Vector vec;
+		int x = 0, y = 0;
+		GetJoypadAnalogInput( &x, &y, JOYPADKEY[ i ] );
+		vec.x = x;
+		vec.y = y;
+		vec.x += +( ( key & PAD_INPUT_RIGHT ) != 0 );
+		vec.x += -( ( key & PAD_INPUT_LEFT  ) != 0 );
+		vec.y += +( ( key & PAD_INPUT_DOWN  ) != 0 );
+		vec.y += -( ( key & PAD_INPUT_UP    ) != 0 );
+		vec = vec.normalize( ) * 100;
 
-	_data.x = ( char )vec.x;
-	_data.y = ( char )vec.y;
+		_data[ i ].x = ( char )vec.x;
+		_data[ i ].y = ( char )vec.y;
 
-	_data.button = 0;
-	if ( ( key & PAD_INPUT_A ) != 0 ) { 
-		_data.button |= BUTTON_A;
-	}
-	if ( ( key & PAD_INPUT_B ) != 0 ) { 
-		_data.button |= BUTTON_B;
-	}
-	if ( ( key & PAD_INPUT_C ) != 0 ) { 
-		_data.button |= BUTTON_C;
-	}
-	if ( ( key & PAD_INPUT_X ) != 0 ) { 
-		_data.button |= BUTTON_D;
+		_data[ i ].button = 0;
+		if ( ( key & PAD_INPUT_A ) != 0 ) { 
+			_data[ i ].button |= BUTTON_A;
+		}
+		if ( ( key & PAD_INPUT_B ) != 0 ) { 
+			_data[ i ].button |= BUTTON_B;
+		}
+		if ( ( key & PAD_INPUT_C ) != 0 ) { 
+			_data[ i ].button |= BUTTON_C;
+		}
+		if ( ( key & PAD_INPUT_X ) != 0 ) { 
+			_data[ i ].button |= BUTTON_D;
+		}
 	}
 }
