@@ -29,6 +29,7 @@ private:
 		char x;
 		char y;
 		unsigned char button;
+		unsigned char push;
 	};
 private:
 	std::array< DATA, MAX_JOYPAD_USE_NUM > _data;
