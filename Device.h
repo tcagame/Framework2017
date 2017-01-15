@@ -22,6 +22,7 @@ public:
 	char getDirX( int idx = 0 ) const;
 	char getDirY( int idx = 0 ) const;
 	unsigned char getButton( int idx = 0 ) const;
+	unsigned char getPush( int idx = 0 ) const;
 public:
 	void resetup( );
 private:

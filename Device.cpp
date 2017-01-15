@@ -64,6 +64,10 @@ unsigned char Device::getButton( int idx ) const {
 	return _data[ idx ].button;
 }
 
+unsigned char Device::getPush( int idx ) const {
+	return _data[ idx ].push;
+}
+
 void Device::update( ) {
 	for ( int i = 0; i < _num; i++ ) {
 		int key = GetJoypadInputState( JOYPADKEY[ i ] );
