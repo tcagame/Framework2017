@@ -74,8 +74,8 @@ void Device::update( ) {
 		Vector vec;
 		int x = 0, y = 0;
 		GetJoypadAnalogInput( &x, &y, JOYPADKEY[ i ] );
-		vec.x = x;
-		vec.y = y;
+		vec.x = x / 1000.0;
+		vec.y = y / 1000.0;
 		vec.x += +( ( key & PAD_INPUT_RIGHT ) != 0 );
 		vec.x += -( ( key & PAD_INPUT_LEFT  ) != 0 );
 		vec.y += +( ( key & PAD_INPUT_DOWN  ) != 0 );
