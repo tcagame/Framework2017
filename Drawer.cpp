@@ -245,6 +245,7 @@ void Drawer::loadMDLModel( int type, const char* model_filename, const char* tex
 }
 
 void Drawer::loadGraph( int res, const char * filename ) {
+	unloadGraph( res );
 	std::string path = _directory;
 	path += "/";
 	path +=  filename;
