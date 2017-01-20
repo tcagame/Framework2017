@@ -2,7 +2,7 @@
 
 #include "Task.h"
 #include "smart_ptr.h"
-#include <array>
+#include <map>
 #include <string>
 
 PTR( Sound );
@@ -19,9 +19,10 @@ public:
 	void finalize( );
 public:
 	void update( );
-	void playSE( const char * filename );
-	void playBGM( const char * filename );
+	void playSE( std::string filename );
+	void playBGM( std::string filename );
 private:
 	const char* _directory;
+	std::map< std::string, int > _se;
 };
 

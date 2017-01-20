@@ -26,10 +26,24 @@ Sound::~Sound( ) {
 void Sound::update( ) {
 }
 
-void Sound::playSE( const char * filename ) {
+void Sound::playSE( std::string filename ) {
+	if ( _se.count( filename ) == 0 ) {
+		// V‚µ‚¢‚a‚f‚l‚ğÄ¶
+		std::string path = _directory;
+		path += "/";
+		path +=  filename;
+		int id = LoadSoundMem( path.c_str( ) );
+		if ( id < 0 ) {
+			path = "../" + path;
+			id = LoadSoundMem( path.c_str( ) );
+		}
+		_se[ filename ] = id;
+	}
+
+	PlaySoundMem( _se[ filename ], DX_PLAYTYPE_BACK );
 }
 
-void Sound::playBGM( const char * filename ) {
+void Sound::playBGM( std::string filename ) {
 	// ‘O‰ñ‚Ì‚a‚f‚l‚ğíœ
 	StopMusic( );
 
