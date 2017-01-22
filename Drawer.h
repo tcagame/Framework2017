@@ -44,16 +44,12 @@ public:
 
 	struct ModelMV1 {
 		Matrix matrix;
-		int motion;
+		int mesh;
+		int anime;
 		double time;
 		bool dx_mat;
 		ModelMV1( );
-		ModelMV1( Matrix matrix_, int motion_, double time_ );
-	};
-	struct MV1_ID {
-		int body;
-		int body_anim;
-		double scale;
+		ModelMV1( Matrix matrix_, int mesh_, int anime_ = -1, double time_ = 0 );
 	};
 
 	struct ModelMDL {
@@ -88,6 +84,7 @@ public:
 	void setBillboard( const Billboard& billboard );
 	void drawString( int x, int y, const char* string, ... );
 	void drawLine( int x1, int y1, int x2, int y2 );
+	void attachAnim( int mesh, int anime );
 
 private:
 	void drawModelMV1( );
@@ -108,7 +105,7 @@ private:
 	int _sprite_idx;
 
 	static const int MODEL_ID_NUM = 1000;
-	std::array< MV1_ID, MODEL_ID_NUM > _model_id;
+	std::array< int, MODEL_ID_NUM > _mv1_id;
 
 	static const int GRAPHIC_ID_NUM = 1000;
 	std::array< int, GRAPHIC_ID_NUM > _graphic_id;

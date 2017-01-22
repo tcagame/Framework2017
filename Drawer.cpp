@@ -31,13 +31,15 @@ sy2( sy2_ ) {
 }
 
 Drawer::ModelMV1::ModelMV1( ) :
-motion( -1 ),
+mesh( -1 ),
+anime( -1 ),
 time( 0 ){
 }
 
-Drawer::ModelMV1::ModelMV1( Matrix matrix_, int motion_, double time_ ) :
+Drawer::ModelMV1::ModelMV1( Matrix matrix_, int mesh_, int anime_, double time_ ) :
 matrix( matrix_ ),
-motion( motion_ ),
+mesh( mesh_ ),
+anime( anime_ ),
 time( time_ ) {
 }
 
@@ -101,7 +103,7 @@ void Drawer::initialize( ) {
 	}
 
 	for ( int i = 0; i < MODEL_ID_NUM; i++ ) {
-		_model_id[ i ].body = -1;
+		_mv1_id[ i ] = -1;
 	}
 
 	_sprite_idx = 0;
@@ -137,8 +139,8 @@ void Drawer::drawModelMDL( ) {
 
 void Drawer::drawModelMV1( ) {
 	for ( int i = 0; i < _model_mv1_idx; i++ ) {
-		int id = _model_id[ _model_mv1[ i ].motion ].body;
-		int anim = _model_id[ _model_mv1[ i ].motion ].body_anim;
+		int mesh = _mv1_id[ _model_mv1[ i ].mesh ];
+		int anim = _mv1_id[ _model_mv1[ i ].anime ];
 		double time = _model_mv1[ i ].time;
 		Matrix mat = _model_mv1[ i ].matrix;
 		MATRIX matrix = MGetIdent( );
@@ -152,10 +154,13 @@ void Drawer::drawModelMV1( ) {
 			matrix.m[ 3 ][ j ] = ( float )mat.data[ 3 ][ j ];
 		}
 
-		MV1SetMatrix( id, matrix );
-		MV1SetAttachAnimTime( id, anim, ( float )time );
+		MV1SetMatrix( mesh, matrix );
+		//ƒAƒjƒ[ƒVƒ‡ƒ“Ý’è
+		int idx = MV1AttachAnim( mesh, 0, anim, TRUE );
+		MV1SetAttachAnimTime( mesh, idx, ( float )time );
 		// ‚R‚cƒ‚ƒfƒ‹‚Ì•`‰æ
-		MV1DrawModel( id );
+		MV1DrawModel( mesh );
+		MV1DetachAnim( mesh, idx );
 	}
 	_model_mv1_idx = 0;
 }
@@ -219,15 +224,13 @@ void Drawer::loadMV1Model( int motion, const char* filename ) {
 	path += "/";
 	path += filename;
 	assert( motion < MODEL_ID_NUM );
-	int& id = _model_id[ motion ].body;
+	int& id = _mv1_id[ motion ];
 	id = MV1LoadModel( path.c_str( ) );
 	assert( id > 0 );
 	int num = MV1GetMaterialNum( id ) ;
 	for ( int i = 0; i < num; i++ ) {
 		MV1SetMaterialEmiColor( id, i, GetColorF( 1.0f, 1.0f, 1.0f, 1.0f ) );
 	}
-	int& anim = _model_id[ motion ].body_anim;
-	anim = MV1AttachAnim( id, 0, -1, FALSE );
 }
 
 void Drawer::loadMDLModel( int type, const char* model_filename, const char* texture_filename, Matrix matrix ) {
@@ -324,8 +327,8 @@ void Drawer::flip( ) {
 	ClearDrawScreen( );
 }
 
-double Drawer::getEndAnimTime( int motion ) {
-	return MV1GetAnimTotalTime( _model_id[ motion ].body, _model_id[ motion ].body_anim );
+double Drawer::getEndAnimTime( int anime ) {
+	return MV1GetAnimTotalTime( _mv1_id[ anime ], 0 );
 }
 
 void Drawer::drawLine( int x1, int y1, int x2, int y2 ) {
