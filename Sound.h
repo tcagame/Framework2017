@@ -19,7 +19,8 @@ public:
 	void finalize( );
 public:
 	void update( );
-	void playSE( std::string filename );
+	void playSE( std::string filename, bool loop = false );
+	void stopSE( std::string filename );
 	void playBGM( std::string filename );
 private:
 	const char* _directory;

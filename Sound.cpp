@@ -26,7 +26,7 @@ Sound::~Sound( ) {
 void Sound::update( ) {
 }
 
-void Sound::playSE( std::string filename ) {
+void Sound::playSE( std::string filename, bool loop ) {
 	if ( _se.count( filename ) == 0 ) {
 		// êVÇµÇ¢ÇaÇfÇlÇçƒê∂
 		std::string path = _directory;
@@ -40,7 +40,19 @@ void Sound::playSE( std::string filename ) {
 		_se[ filename ] = id;
 	}
 
-	PlaySoundMem( _se[ filename ], DX_PLAYTYPE_BACK );
+	if ( loop ) {
+		PlaySoundMem( _se[ filename ], DX_PLAYTYPE_LOOP );
+	} else {
+		PlaySoundMem( _se[ filename ], DX_PLAYTYPE_BACK );
+	}
+}
+
+void Sound::stopSE( std::string filename ) {
+	if ( _se.count( filename ) == 0 ) {
+		return;
+	}
+
+	StopSoundMem( _se[ filename ] );
 }
 
 void Sound::playBGM( std::string filename ) {
