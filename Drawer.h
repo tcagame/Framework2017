@@ -66,15 +66,24 @@ public:
 		BLEND blend;
 		double ratio;
 		Billboard( );
-		Billboard( Vector pos_, double size_, int res, BLEND blend_, double ratio_ );
+		Billboard( Vector pos_, double size_, int res_, BLEND blend_, double ratio_ );
 	};
 	
+	struct Effect {
+		int id;
+		Vector pos;
+		Vector rotate;
+		double size;
+		Effect( );
+		Effect( int id_, const Vector& pos_, double size_ = 1.0, const Vector& rotate_ = Vector( ) );
+	};
 public:
 	void initialize( );
 	void update( );
 	void loadMV1Model( int motion, const char* filename );
 	void loadMDLModel( int type, const char* filename, const char* texture_filename, Matrix matrix = Matrix( ) );
 	void loadGraph( int res, const char* filename );
+	void loadEffect( int id, const char* filename );
 	void unloadGraph( int res );
 	void unloadAllGraph( );
 	double getEndAnimTime( int res );
@@ -82,15 +91,17 @@ public:
 	void setModelMV1( const ModelMV1& model );
 	void setModelMDL( const ModelMDL& model_mdl );
 	void setBillboard( const Billboard& billboard );
+	void setEffect( const Effect& effect );
 	void drawString( int x, int y, const char* string, ... );
 	void drawLine( int x1, int y1, int x2, int y2 );
-	void attachAnim( int mesh, int anime );
-
+	void setCameraUp( const Vector& up );
+	void setCamera( const Vector& pos, const Vector& target );
 private:
 	void drawModelMV1( );
 	void drawModelMDL( );
 	void drawSprite( );
 	void drawBillboard( );
+	void drawEffect( );
 	void flip( );
 
 private:
@@ -106,7 +117,7 @@ private:
 
 	static const int MODEL_ID_NUM = 1000;
 	std::array< int, MODEL_ID_NUM > _mv1_id;
-
+	
 	static const int GRAPHIC_ID_NUM = 1000;
 	std::array< int, GRAPHIC_ID_NUM > _graphic_id;
 
@@ -120,8 +131,17 @@ private:
 
 	static const int MODEL_NUM = 20;
 	std::array< ModelPtr, MODEL_NUM > _model;
+	
+	static const int EFFECT_ID_NUM = 1000;
+	std::array< int, EFFECT_ID_NUM > _effect_id;
+
+	static const int EFFECT_NUM = 1000;
+	std::array< Effect, EFFECT_NUM > _effect;
+	int _effect_idx;
 
 	int _refresh_count;
 	int _start_time;
 	double _fps;
+
+	Vector _camera_up;
 };

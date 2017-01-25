@@ -19,20 +19,23 @@ public:
 		MV_ANIME_02,
 		MV_SAMPLE,
 	};
+	enum EFFECT {
+		EFFECT_1,
+	};
 	void initialize( ) {
 		DrawerPtr drawer = Drawer::getTask( );
 		drawer->loadMV1Model( MV_MESH, "player_01.mv1" );
 		drawer->loadMV1Model( MV_ANIME_01, "player_move.mv1" );
 		drawer->loadMV1Model( MV_ANIME_02, "player_idle.mv1" );
 		drawer->loadMV1Model( MV_SAMPLE, "sample.mv1" );
-
+		drawer->loadEffect( EFFECT_1, "laser.efk" );
 	}
 
 	void update( ) {
 		DrawerPtr drawer = Drawer::getTask( );
 
 		static double r = 0;
-		//r += 0.01;
+		r += 0.01;
 		Matrix mat = Matrix::makeTransformRotation( Vector( 0, 1, 0 ), PI / 2 + r );
 		Matrix mat_trans = Matrix::makeTransformTranslation( Vector( 0, 0, 0 ) );
 		mat = mat * mat_trans;
@@ -40,9 +43,6 @@ public:
 		static MV mv_anime = MV_ANIME_01;
 		KeyboardPtr keyboard = Keyboard::getTask( );
 	
-
-		
-
 		static double time = 0;
 		time += 0.9;
 
@@ -61,14 +61,18 @@ public:
 		model.anime = mv_anime;
 		model.time = time;
 		drawer->setModelMV1( model );
-		ApplicationPtr app = Application::getInstance( );
-		app->setCameraUp( Vector( 0, 1, 0 ) );
+		drawer->setCameraUp( Vector( 0, 1, 0 ) );
 
 		static double length = 500;
 
-		Vector vec( 100, 20, 500 );
+		Vector vec( 100, 500, 500 );
 		vec = vec.normalize( ) * length;
-		app->setCamera( vec, Vector( ) );
+		drawer->setCamera( vec, Vector( 0, 20, 0 ) );
+
+		if ( keyboard->isPushKey( "SPACE" ) ) {
+			Drawer::Effect effect( EFFECT_1, Vector( 0, 0, 0 ), 3.0, Vector( 0, r, 0 ) );
+			drawer->setEffect( effect );
+		}
 	}
 };
 

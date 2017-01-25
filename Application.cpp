@@ -2,6 +2,11 @@
 #include "Binary.h"
 #include "DxLib.h"
 
+#if EFFECKSEER
+	// EffekseerForDXLib.hをインクルードします。
+#	include "EffekseerForDXLib.h"
+#endif
+
 #pragma warning(disable:4099)
 
 const int PARTICLE = 2000; //Effekseerの最大パーティクル数
@@ -15,27 +20,53 @@ ApplicationPtr Application::_instance;
 Application::Application( ) {
 	int sx = GetSystemMetrics( SM_CXSCREEN );
 	int sy = GetSystemMetrics( SM_CYSCREEN );
-#if FULLSCREEN
-	ChangeWindowMode( FALSE );
-	SetGraphMode( sx, sy, COLOR_BIT, FPS );
-	_screen_width = sx;
-	_screen_height = sy;
-#else
-	sx = sx * 3 / 4;
-	sy = sy * 3 / 4;
-	ChangeWindowMode( TRUE );
-	SetGraphMode( sx, sy, COLOR_BIT_DEPTH, FPS );
-	_screen_width = sx;
-	_screen_height = sy;
-#endif
-#if _DEBUG
-	SetDoubleStartValidFlag( TRUE ); // 多重起動
-#endif
+
 	SetWindowText( WINDOW_NAME );
+
+#	if FULLSCREEN
+		ChangeWindowMode( FALSE );
+		SetGraphMode( sx, sy, COLOR_BIT, FPS );
+		_screen_width = sx;
+		_screen_height = sy;
+#	else
+		sx = sx * 3 / 4;
+		sy = sy * 3 / 4;
+		ChangeWindowMode( TRUE );
+		SetGraphMode( sx, sy, COLOR_BIT_DEPTH, FPS );
+		_screen_width = sx;
+		_screen_height = sy;
+#	endif
+
+#	if _DEBUG
+		SetDoubleStartValidFlag( TRUE ); // 多重起動
+#	endif
+
+#	if EFFECKSEER
+		// DirectX9を使用するようにする。
+		// Effekseerを使用するには必ず設定する。
+		SetUseDirect3DVersion(DX_DIRECT3D_9);
+		
+		// フルスクリーンウインドウの切り替えでリソースが消えるのを防ぐ。
+		// Effekseerを使用する場合は必ず設定する。
+		SetChangeScreenModeGraphicsSystemResetFlag(FALSE);
+
+		// DXライブラリのデバイスロストした時のコールバックを設定する。
+		// ウインドウとフルスクリーンの切り替えが発生する場合は必ず実行する。
+		Effekseer_SetGraphicsDeviceLostCallbackFunctions();
+#	endif
 
 	if ( DxLib_Init( ) == -1 ) {
 		return;
 	}
+	
+#	if EFFECKSEER
+		// Effekseerを初期化する。
+		// 引数には画面に表示する最大パーティクル数を設定する。
+		if ( Effkseer_Init( 2000 ) == -1 ) {
+			DxLib_End();
+			return;
+		}
+#	endif
 
 	SetUseLighting( FALSE );
 	SetLightEnable( FALSE );
@@ -185,17 +216,6 @@ std::string Application::inputString( int sx, int sy ) {
 
 void Application::terminate( ) {
 	_terminating = true;
-}
-
-void Application::setCameraUp( const Vector& up ) {
-	_camera_up = up;
-}
-
-void Application::setCamera( const Vector& pos, const Vector& target ) {
-	DxLib::VECTOR dx_pos = VGet( float( pos.x ), float( pos.y ), float( pos.z ) );
-	DxLib::VECTOR dx_target = VGet( float( target.x ), float( target.y ), float( target.z ) );
-	DxLib::VECTOR dx_up = VGet( float( _camera_up.x ), float( _camera_up.y ), float( _camera_up.z ) );
-	SetCameraPositionAndTargetAndUpVec( dx_pos, dx_target, dx_up );
 }
 
 void Application::setWindowSize( int width, int height ) {

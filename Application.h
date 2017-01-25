@@ -27,8 +27,6 @@ public:
 	void saveBinary( std::string filename, BinaryPtr binary );
 	std::string inputString( int sx, int sy );
 	void terminate( );
-	void setCameraUp( const Vector& up );
-	void setCamera( const Vector& pos, const Vector& target );
 	void setWindowSize( int width, int height );
 private:
 	static ApplicationPtr _instance;
@@ -36,6 +34,5 @@ private:
 	int _screen_height;
 	std::map< std::string, TaskPtr > _task_list;
 	bool _terminating;
-	Vector _camera_up;
 };
 

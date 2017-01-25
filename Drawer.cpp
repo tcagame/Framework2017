@@ -2,6 +2,12 @@
 #include "Application.h"
 #include "Model.h"
 #include "DxLib.h"
+
+#if EFFECKSEER
+	// EffekseerForDXLib.hをインクルードします。
+#	include "EffekseerForDXLib.h"
+#endif
+
 #include <assert.h>
 
 static const int REFRESH_COUNT = 60;	//平均を取るサンプル数
@@ -85,6 +91,18 @@ ratio( ratio_ ) {
 
 }
 
+Drawer::Effect::Effect( ) :
+id( -1 ) {
+}
+
+Drawer::Effect::Effect( int id_, const Vector& pos_, double size_, const Vector& rotate_ ) :
+id( id_),
+pos( pos_ ),
+size( size_ ),
+rotate( rotate_ ) {
+
+}
+
 DrawerPtr Drawer::getTask( ) {
 	ApplicationPtr fw = Application::getInstance( );
 	return std::dynamic_pointer_cast< Drawer >( fw->getTask( getTag( ) ) );
@@ -109,6 +127,7 @@ void Drawer::initialize( ) {
 	_sprite_idx = 0;
 	_model_mv1_idx = 0;
 	_billboard_idx = 0;
+	_effect_idx = 0;
 
 	_refresh_count = 0;
 	_fps = FPS;
@@ -123,6 +142,7 @@ void Drawer::update( ) {
 	drawModelMV1( );
 	drawModelMDL( );
 	drawBillboard( );
+	drawEffect( );
 	drawSprite( );
 	
 }
@@ -219,6 +239,31 @@ void Drawer::drawBillboard( ) {
 	_billboard_idx = 0;
 }
 
+void Drawer::drawEffect( ) {
+# if EFFECKSEER
+		for ( int i = 0; i < _effect_idx; i++ ) {
+			const Effect& effect = _effect[ i ];
+			
+			int handle = PlayEffekseer3DEffect( effect.id );
+			float size = ( float )effect.size;
+			SetScalePlayingEffekseer3DEffect( handle,
+				size, size, size );
+			SetRotationPlayingEffekseer3DEffect( handle,
+				( float )effect.rotate.x, ( float )effect.rotate.y, ( float )effect.rotate.z );
+			SetPosPlayingEffekseer3DEffect( handle,
+				( float )effect.pos.x, ( float )effect.pos.y, ( float )effect.pos.z );
+		}
+
+		// Effekseerにより再生中のエフェクトを更新する。
+		UpdateEffekseer3D();
+
+		// Effekseerにより再生中のエフェクトを描画する。
+		DrawEffekseer3D();
+#	endif
+
+	_effect_idx = 0;
+}
+
 void Drawer::loadMV1Model( int motion, const char* filename ) {
 	std::string path = _directory;
 	path += "/";
@@ -245,6 +290,21 @@ void Drawer::loadMDLModel( int type, const char* model_filename, const char* tex
 	_model[ type ]->load( path.c_str( ) );
 	_model[ type ]->setTexture( tex_path.c_str( ) );
 	_model[ type ]->multiply( matrix );
+}
+
+void Drawer::loadEffect( int id, const char* filename ) {
+#	if EFFECKSEER
+		assert( id < EFFECT_ID_NUM );
+		std::string path = _directory;
+		path += "/";
+		path +=  filename;
+		_effect_id[ id ] = LoadEffekseerEffect( path.c_str( ) );
+		if ( _effect_id[ id ] < 0 ) {
+			path = "../" + path;
+			_effect_id[ id ] = LoadEffekseerEffect( path.c_str( ) );
+			assert( _effect_id[ id ] >= 0 );
+		}
+#	endif
 }
 
 void Drawer::loadGraph( int res, const char * filename ) {
@@ -301,6 +361,12 @@ void Drawer::setBillboard( const Billboard& billboard ) {
 	_billboard_idx++;
 }
 
+void Drawer::setEffect( const Effect& effect ) {
+	assert( _effect_idx < EFFECT_NUM );
+	_effect[ _effect_idx ] = effect;
+	_effect_idx++;
+}
+
 void Drawer::flip( ) {
 	if ( _refresh_count == 0 ) {
 		_start_time = GetNowCount( );
@@ -343,4 +409,20 @@ void Drawer::drawString( int x, int y, const char* string, ... ) {
 	vsprintf_s( buf, 1024, string, ap );
 	DrawString( x, y, buf, color );
 	va_end( ap );
+}
+
+void Drawer::setCameraUp( const Vector& up ) {
+	_camera_up = up;
+}
+
+void Drawer::setCamera( const Vector& pos, const Vector& target ) {
+	DxLib::VECTOR dx_pos = VGet( float( pos.x ), float( pos.y ), float( pos.z ) );
+	DxLib::VECTOR dx_target = VGet( float( target.x ), float( target.y ), float( target.z ) );
+	DxLib::VECTOR dx_up = VGet( float( _camera_up.x ), float( _camera_up.y ), float( _camera_up.z ) );
+	SetCameraPositionAndTargetAndUpVec( dx_pos, dx_target, dx_up );
+
+#	if EFFECKSEER
+		// DXライブラリのカメラとEffekseerのカメラを同期する。
+		Effekseer_Sync3DSetting();
+#	endif
 }
