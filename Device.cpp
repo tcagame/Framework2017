@@ -4,7 +4,7 @@
 #include "DxLib.h"
 
 const int JOYPADKEY[ MAX_JOYPAD_USE_NUM ] = {
-	DX_INPUT_KEY_PAD1,
+	DX_INPUT_PAD1,
 	DX_INPUT_PAD2,
 	DX_INPUT_PAD3,
 	DX_INPUT_PAD4,
@@ -46,8 +46,10 @@ Device::~Device( ) {
 void Device::resetup( ) {
 	ReSetupJoypad( );
 	_num = GetJoypadNum( );
+	_is_not_connect = false;
 	if ( _num < 1 ) {
 		_num = 1;
+		_is_not_connect = true;
 	}
 }
 
@@ -73,10 +75,14 @@ int Device::getDeviceNum( ) const {
 
 void Device::update( ) {
 	for ( int i = 0; i < _num; i++ ) {
-		int key = GetJoypadInputState( JOYPADKEY[ i ] );
+		int joypad_key = JOYPADKEY[ i ];
+		if ( _is_not_connect ) {
+			joypad_key = DX_INPUT_KEY_PAD1;
+		}
+		int key = GetJoypadInputState( joypad_key );
 		Vector vec;
 		int x = 0, y = 0;
-		GetJoypadAnalogInput( &x, &y, JOYPADKEY[ i ] );
+		GetJoypadAnalogInput( &x, &y, joypad_key );
 		vec.x = x / 1000.0;
 		vec.y = y / 1000.0;
 		vec.x += +( ( key & PAD_INPUT_RIGHT ) != 0 );
