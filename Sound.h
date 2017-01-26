@@ -21,7 +21,9 @@ public:
 	void update( );
 	void playSE( std::string filename, bool loop = false );
 	void stopSE( std::string filename );
-	void playBGM( std::string filename );
+	void stopAllSE( );
+	void playBGM( std::string filename, bool loop = true );
+	void stopBGM( );
 private:
 	const char* _directory;
 	std::map< std::string, int > _se;
