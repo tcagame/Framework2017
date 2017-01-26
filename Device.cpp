@@ -46,6 +46,9 @@ Device::~Device( ) {
 void Device::resetup( ) {
 	ReSetupJoypad( );
 	_num = GetJoypadNum( );
+	if ( _num < 1 ) {
+		_num = 1;
+	}
 }
 
 char Device::getDirX( int idx ) const {
