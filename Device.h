@@ -19,6 +19,7 @@ public:
 	void initialize( );
 	virtual void update( );
 public:
+	int getDeviceNum( ) const;
 	char getDirX( int idx = 0 ) const;
 	char getDirY( int idx = 0 ) const;
 	unsigned char getButton( int idx = 0 ) const;

@@ -3,6 +3,7 @@
 #include "Network.h"
 
 const int SETTING_NUM = 10;
+const int PLAYER_START_HP = 1000;
 
 ServerPtr Server::getTask( ) {
 	ApplicationPtr fw = Application::getInstance( );
@@ -20,6 +21,7 @@ Server::Server( ) {
 	_udp_handle = MakeUDPSocket( -1 );
 
 	for ( int i = 0; i < PLAYER_NUM; i++ ) {
+		_data.player[ i ].hp = PLAYER_START_HP;
 		_data.player[ i ].x = 0;
 		_data.player[ i ].y = 0;
 		_data.player[ i ].action = ACTION_NONE;

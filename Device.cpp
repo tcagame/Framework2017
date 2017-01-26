@@ -37,7 +37,6 @@ void Device::initialize( ) {
 		_data[ i ].y = 0;
 		_data[ i ].button = 0;
 	}
-
 	resetup( );
 }
 
@@ -47,9 +46,6 @@ Device::~Device( ) {
 void Device::resetup( ) {
 	ReSetupJoypad( );
 	_num = GetJoypadNum( );
-	if ( _num < 1 ) {
-		_num = 1; // キーボード対応
-	}
 }
 
 char Device::getDirX( int idx ) const {
@@ -66,6 +62,10 @@ unsigned char Device::getButton( int idx ) const {
 
 unsigned char Device::getPush( int idx ) const {
 	return _data[ idx ].push;
+}
+
+int Device::getDeviceNum( ) const {
+	return _num;
 }
 
 void Device::update( ) {
