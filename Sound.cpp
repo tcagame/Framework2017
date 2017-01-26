@@ -55,16 +55,33 @@ void Sound::stopSE( std::string filename ) {
 	StopSoundMem( _se[ filename ] );
 }
 
-void Sound::playBGM( std::string filename ) {
+void Sound::playBGM( std::string filename, bool loop ) {
 	// ‘O‰ñ‚Ì‚a‚f‚l‚ğíœ
 	StopMusic( );
+
+	int flg = DX_PLAYTYPE_BACK;
+	if ( loop ) {
+		flg = DX_PLAYTYPE_LOOP;
+	}
 
 	// V‚µ‚¢‚a‚f‚l‚ğÄ¶
 	std::string path = _directory;
 	path += "/";
 	path +=  filename;
-	if ( PlayMusic( path.c_str( ), DX_PLAYTYPE_LOOP ) != 0 ) {
+	if ( PlayMusic( path.c_str( ), flg ) != 0 ) {
 		path = "../" + path;
-		PlayMusic( path.c_str( ), DX_PLAYTYPE_LOOP );
+		PlayMusic( path.c_str( ), flg );
+	}
+}
+
+void Sound::stopBGM( ) {
+	StopMusic( );
+}
+
+void Sound::stopAllSE( ) {
+	std::map< std::string, int >::iterator it = _se.begin( );
+	while ( it != _se.end( ) ) {
+		StopSoundMem( (*it).second );
+		it++;
 	}
 }
