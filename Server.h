@@ -23,6 +23,7 @@ public:
 	void setConecting( int index, int device );
 	CLIENTDATA getData( );
 private:
+	void updateData( );
 	void listenForAcceptNewClient( );
 	void listenForPackets( );
 	void sendCondition( );
