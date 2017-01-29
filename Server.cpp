@@ -24,7 +24,7 @@ Server::Server( ) {
 		_data.player[ i ].hp = PLAYER_START_HP;
 		_data.player[ i ].x = 0;
 		_data.player[ i ].y = 0;
-		_data.player[ i ].action = ACTION_NONE;
+		_data.player[ i ].button = BUTTON_NONE;
 	}
 }
 
@@ -36,7 +36,6 @@ Server::~Server( ) {
 void Server::update( ) {
 	listenForAcceptNewClient( );
 	listenForPackets( );
-	updateData( );
 	sendCondition( );
 }
 
@@ -102,6 +101,11 @@ void Server::executeNetData( const SERVERDATA& data ) {
 		break;
 	case COMMAND_CONDITION:
 		break;
+	case COMMAND_STATUS_DAMAGE:
+		//value[ 0 ] = ÉvÉåÉCÉÑÅ[î‘çÜ
+		//value[ 1 ] = power
+		//value[ 2 ] = î{ó¶
+		damage( data.value[ 0 ], data.value[ 1 ] * data.value[ 2 ] );
 	}
 }
 
@@ -124,7 +128,7 @@ void Server::sendStatus( const CLIENTDATA& data ) {
 		GetNetWorkIP( _machine[ i ], &ip );
 		_data.player[ i ].x = data.player[ i ].x;
 		_data.player[ i ].y = data.player[ i ].y;
-		_data.player[ i ].action = data.player[ i ].action;
+		_data.player[ i ].button = data.player[ i ].button;
 
 		NetWorkSendUDP( _udp_handle, ip, UDP_PORT_NUM, &_data, sizeof( CLIENTDATA ) ) ;
 	}
@@ -157,7 +161,6 @@ CLIENTDATA Server::getData( ) {
 	return _data;
 }
 
-
-void Server::updateData( ) {
-	
+void Server::damage( unsigned int index, unsigned int power ) {
+	_data.player[ index ].hp -= power;
 }

@@ -20,13 +20,11 @@ const unsigned char PLAYER_2 = 0x02;
 const unsigned char PLAYER_3 = 0x03;
 const unsigned char PLAYER_NONE        = 0xff;
 
-const unsigned char ACTION_NONE = 0x01;
-const unsigned char ACTION_ATTACK = 0x02;
-
-const unsigned char BUTTON_A = 0x01; // INPUT_A ( 0b00000001 )
-const unsigned char BUTTON_B = 0x02; // INPUT_B ( 0b00000010 )
-const unsigned char BUTTON_C = 0x04; // INPUT_C ( 0b00000100 )
-const unsigned char BUTTON_D = 0x08; // INPUT_D ( 0b00001000 )
+const unsigned char BUTTON_NONE = 0x00; // INPUT_NONE ( 0b00000000 )
+const unsigned char BUTTON_A    = 0x01; // INPUT_A ( 0b00000001 )
+const unsigned char BUTTON_B    = 0x02; // INPUT_B ( 0b00000010 )
+const unsigned char BUTTON_C    = 0x04; // INPUT_C ( 0b00000100 )
+const unsigned char BUTTON_D    = 0x08; // INPUT_D ( 0b00001000 )
 
 const int MAX_MACHINE = 4;
 
@@ -39,9 +37,9 @@ const int MAX_MACHINE = 4;
 	struct CLIENTDATA {
 		struct PLAYER {
 			unsigned int hp;
-			unsigned int x;
-			unsigned int y;
-			unsigned int action;
+			int x;
+			int y;
+			unsigned int button;
 		};
 		PLAYER player[ PLAYER_NUM ];
 	};

@@ -23,11 +23,11 @@ public:
 	void setConecting( int index, int device );
 	CLIENTDATA getData( );
 private:
-	void updateData( );
 	void listenForAcceptNewClient( );
 	void listenForPackets( );
 	void sendCondition( );
 	void executeNetData( const SERVERDATA& data );
+	void damage( unsigned int index, unsigned int power );
 private:
 	std::array< int, MAX_MACHINE > _machine;
 	int _udp_handle;
