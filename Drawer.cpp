@@ -142,9 +142,8 @@ void Drawer::update( ) {
 	drawModelMV1( );
 	drawModelMDL( );
 	drawBillboard( );
-	drawEffect( );
 	drawSprite( );
-	
+	drawEffect( );
 }
 
 void Drawer::drawModelMDL( ) {
@@ -241,6 +240,7 @@ void Drawer::drawBillboard( ) {
 
 void Drawer::drawEffect( ) {
 # if EFFECKSEER
+
 		for ( int i = 0; i < _effect_idx; i++ ) {
 			const Effect& effect = _effect[ i ];
 			
@@ -255,10 +255,11 @@ void Drawer::drawEffect( ) {
 		}
 
 		// Effekseerにより再生中のエフェクトを更新する。
-		UpdateEffekseer3D();
+		UpdateEffekseer3D( );
 
 		// Effekseerにより再生中のエフェクトを描画する。
-		DrawEffekseer3D();
+		DrawEffekseer3D( );
+
 #	endif
 
 	_effect_idx = 0;
