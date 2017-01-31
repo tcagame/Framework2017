@@ -126,6 +126,7 @@ void Server::sendStatus( const CLIENTDATA& data ) {
 		_data.player[ i ].y = data.player[ i ].y;
 		_data.player[ i ].button = data.player[ i ].button;
 	}
+	_data.scene = data.scene;
 	for ( int i = 0; i < MAX_MACHINE; i++ ) {
 		if ( _machine[ i ] < 0 ) {
 			continue;

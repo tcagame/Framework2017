@@ -36,6 +36,7 @@ void Device::initialize( ) {
 		_data[ i ].x = 0;
 		_data[ i ].y = 0;
 		_data[ i ].button = 0;
+		_data[ i ].push = 0;
 	}
 	resetup( );
 }
