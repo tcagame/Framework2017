@@ -12,6 +12,11 @@ const unsigned char COMMAND_DUMMY		   = 0xF0; // ダミー
 const unsigned char COMMAND_CONDITION	   = 0xE0; // 接続確認
 const unsigned char COMMAND_STATUS_DAMAGE  = 0x10; // Status変更
 
+const unsigned char SCENE_TITLE		= 0x00;
+const unsigned char SCENE_PLAY		= 0x01;
+const unsigned char SCENE_CLEAR		= 0x02;
+const unsigned char SCENE_GAMEOVER	= 0x03;
+
 const int PLAYER_NUM = 4;
 
 const unsigned char PLAYER_0 = 0x00;
@@ -41,6 +46,7 @@ const int MAX_MACHINE = 4;
 			int y;
 			unsigned int button;
 		};
+		unsigned char scene;
 		PLAYER player[ PLAYER_NUM ];
 	};
 #pragma pack( )

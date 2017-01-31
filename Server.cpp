@@ -26,6 +26,7 @@ Server::Server( ) {
 		_data.player[ i ].y = 0;
 		_data.player[ i ].button = BUTTON_NONE;
 	}
+	_data.scene = SCENE_TITLE;
 }
 
 Server::~Server( ) {
@@ -164,4 +165,8 @@ CLIENTDATA Server::getData( ) {
 
 void Server::damage( unsigned int index, unsigned int power ) {
 	_data.player[ index ].hp -= power;
+}
+
+void Server::setScene( unsigned char scene ) {
+	_data.scene = scene;
 }

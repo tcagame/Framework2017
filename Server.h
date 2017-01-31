@@ -22,6 +22,7 @@ public:
 	void sendStatus( const CLIENTDATA& data );
 	void setConecting( int index, int device );
 	CLIENTDATA getData( );
+	void setScene( unsigned char scene );
 private:
 	void listenForAcceptNewClient( );
 	void listenForPackets( );
