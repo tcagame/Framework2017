@@ -142,8 +142,8 @@ void Drawer::update( ) {
 	drawModelMV1( );
 	drawModelMDL( );
 	drawBillboard( );
-	drawSprite( );
 	drawEffect( );
+	drawSprite( ); 
 }
 
 void Drawer::drawModelMDL( ) {
@@ -240,7 +240,9 @@ void Drawer::drawBillboard( ) {
 
 void Drawer::drawEffect( ) {
 # if EFFECKSEER
-
+		//EFFECKSEER•`‰æ‚Ìˆ×‚É•K—v‚ÈdrawŠÖ”
+		int check = DrawString( -100, 0, "Effeksser‚Ì‚½‚ß‚Ì•¶š•`‰æ", GetColor( 255, 255, 255 ) );
+		
 		for ( int i = 0; i < _effect_idx; i++ ) {
 			const Effect& effect = _effect[ i ];
 			
