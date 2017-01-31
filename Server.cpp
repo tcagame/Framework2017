@@ -120,16 +120,17 @@ void Server::saveIP( ) {
 }
 
 void Server::sendStatus( const CLIENTDATA& data ) {
+	for ( int i = 0; i < PLAYER_NUM; i++ ) {
+		_data.player[ i ].x = data.player[ i ].x;
+		_data.player[ i ].y = data.player[ i ].y;
+		_data.player[ i ].button = data.player[ i ].button;
+	}
 	for ( int i = 0; i < MAX_MACHINE; i++ ) {
 		if ( _machine[ i ] < 0 ) {
 			continue;
 		}
 		IPDATA ip;
 		GetNetWorkIP( _machine[ i ], &ip );
-		_data.player[ i ].x = data.player[ i ].x;
-		_data.player[ i ].y = data.player[ i ].y;
-		_data.player[ i ].button = data.player[ i ].button;
-
 		NetWorkSendUDP( _udp_handle, ip, UDP_PORT_NUM, &_data, sizeof( CLIENTDATA ) ) ;
 	}
 }
