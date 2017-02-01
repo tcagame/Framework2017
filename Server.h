@@ -23,6 +23,8 @@ public:
 	void setConecting( int index, int device );
 	CLIENTDATA getData( );
 	void setScene( unsigned char scene );
+	unsigned int getBossData( );
+	void resetBossData( );
 private:
 	void listenForAcceptNewClient( );
 	void listenForPackets( );
@@ -35,4 +37,5 @@ private:
 	int _network_state_time;
 	int _send_network_condition_num;
 	CLIENTDATA _data;
+	unsigned int _get_boss_data;
 };

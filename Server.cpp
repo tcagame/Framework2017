@@ -26,6 +26,7 @@ Server::Server( ) {
 		_data.player[ i ].exist = NOT_EXIST;
 	}
 	_data.scene = SCENE_TITLE;
+	_get_boss_data = 0;
 }
 
 Server::~Server( ) {
@@ -106,6 +107,10 @@ void Server::executeNetData( const SERVERDATA& data ) {
 		//value[ 1 ] = power
 		//value[ 2 ] = ”{—¦
 		damage( data.value[ 0 ], data.value[ 1 ] * data.value[ 2 ] );
+		break;
+	case COMMAND_BOSS_DEAD:
+		_get_boss_data |= data.value[ 0 ];
+		break;
 	}
 }
 
@@ -171,4 +176,12 @@ void Server::damage( unsigned int index, unsigned int power ) {
 
 void Server::setScene( unsigned char scene ) {
 	_data.scene = scene;
+}
+
+unsigned int Server::getBossData( ) {
+	return _get_boss_data;
+}
+
+void Server::resetBossData( ) {
+	_get_boss_data = 0;
 }

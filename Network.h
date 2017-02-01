@@ -10,7 +10,11 @@ static const int NETWORK_STATE_TIME = 1200;
 // TCP送信データ
 const unsigned char COMMAND_DUMMY		   = 0xF0; // ダミー
 const unsigned char COMMAND_CONDITION	   = 0xE0; // 接続確認
-const unsigned char COMMAND_STATUS_DAMAGE  = 0x10; // Status変更
+const unsigned char COMMAND_STATUS_DAMAGE  = 0x10; // ダメージ
+const unsigned char COMMAND_BOSS_DEAD	   = 0x20; // ボスを倒したことの送信
+
+const unsigned int BOSS_1 = 0x01;
+const unsigned int BOSS_2 = 0x02;
 
 const unsigned char SCENE_TITLE		= 0x00;
 const unsigned char SCENE_PLAY		= 0x01;
