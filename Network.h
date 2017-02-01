@@ -31,6 +31,9 @@ const unsigned char BUTTON_B    = 0x02; // INPUT_B ( 0b00000010 )
 const unsigned char BUTTON_C    = 0x04; // INPUT_C ( 0b00000100 )
 const unsigned char BUTTON_D    = 0x08; // INPUT_D ( 0b00001000 )
 
+const unsigned char NOT_EXIST = 0x00;
+const unsigned char EXIST = 0x01;
+
 const int MAX_MACHINE = 4;
 
 #pragma pack( 1 )
@@ -44,6 +47,7 @@ const int MAX_MACHINE = 4;
 			unsigned int hp;
 			int x;
 			int y;
+			unsigned char exist;
 			unsigned int button;
 		};
 		unsigned char scene;

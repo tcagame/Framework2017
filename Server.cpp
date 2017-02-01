@@ -3,7 +3,6 @@
 #include "Network.h"
 
 const int SETTING_NUM = 10;
-const int PLAYER_START_HP = 1000;
 
 ServerPtr Server::getTask( ) {
 	ApplicationPtr fw = Application::getInstance( );
@@ -21,10 +20,10 @@ Server::Server( ) {
 	_udp_handle = MakeUDPSocket( -1 );
 
 	for ( int i = 0; i < PLAYER_NUM; i++ ) {
-		_data.player[ i ].hp = PLAYER_START_HP;
 		_data.player[ i ].x = 0;
 		_data.player[ i ].y = 0;
 		_data.player[ i ].button = BUTTON_NONE;
+		_data.player[ i ].exist = NOT_EXIST;
 	}
 	_data.scene = SCENE_TITLE;
 }
@@ -125,6 +124,8 @@ void Server::sendStatus( const CLIENTDATA& data ) {
 		_data.player[ i ].x = data.player[ i ].x;
 		_data.player[ i ].y = data.player[ i ].y;
 		_data.player[ i ].button = data.player[ i ].button;
+		_data.player[ i ].hp = data.player[ i ].hp;
+		_data.player[ i ].exist = data.player[ i ].exist;
 	}
 	_data.scene = data.scene;
 	for ( int i = 0; i < MAX_MACHINE; i++ ) {
