@@ -8,6 +8,7 @@
 PTR( Client );
 PTR( Device );
 PTR( Sound );
+PTR( Inputter );
 
 class Client : public Task {
 public:

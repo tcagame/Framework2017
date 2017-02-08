@@ -23,7 +23,7 @@ public:
 	TaskPtr getTask( std::string tag );
 	int getWindowWidth( ) const;
 	int getWindowHeight( ) const;
-	void loadBinary( std::string filename, BinaryPtr binary );
+	bool loadBinary( std::string filename, BinaryPtr binary );
 	void saveBinary( std::string filename, BinaryPtr binary );
 	std::string inputString( int sx, int sy );
 	void terminate( );

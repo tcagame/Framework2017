@@ -165,19 +165,19 @@ int Application::getWindowHeight( ) const  {
 	return _screen_height;
 }
 
-void Application::loadBinary( std::string  filename, BinaryPtr binary ) {
+bool Application::loadBinary( std::string  filename, BinaryPtr binary ) {
 	int size = ( int )FileRead_size( filename.c_str( ) );
 	if ( size == -1 ) {
 		filename = "../" + filename;
 		size = ( int )FileRead_size( filename.c_str( ) );
 		if ( size == -1 ) {
-			return;
+			return false;
 		}
 	}
 
 	int handle = FileRead_open( filename.c_str( ) );
 	if ( handle == -1 ) {
-		return;
+		return false;
 	}
 
 	binary->ensure( size );
@@ -185,6 +185,8 @@ void Application::loadBinary( std::string  filename, BinaryPtr binary ) {
 	FileRead_read( binary->getPtr( ), size, handle );
 
 	FileRead_close( handle );
+
+	return true;
 }
 
 
