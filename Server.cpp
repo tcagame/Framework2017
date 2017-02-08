@@ -171,7 +171,11 @@ CLIENTDATA Server::getData( ) {
 }
 
 void Server::damage( unsigned int index, unsigned int power ) {
-	_data.player[ index ].hp -= power;
+	if ( _data.player[ index ].hp < power ) {
+		_data.player[ index ].hp = 0;
+	} else {
+		_data.player[ index ].hp -= power;
+	}
 }
 
 void Server::setScene( unsigned char scene ) {
