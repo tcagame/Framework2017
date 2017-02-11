@@ -26,6 +26,14 @@ Sound::~Sound( ) {
 void Sound::update( ) {
 }
 
+bool Sound::isPlayingSE( std::string filename ) {
+	if ( _se.count( filename ) == 0 ) {
+		return false;
+	}
+
+	return CheckSoundMem( _se[ filename ] ) == 1;
+}
+
 void Sound::playSE( std::string filename, bool loop ) {
 	if ( _se.count( filename ) == 0 ) {
 		// V‚µ‚¢‚a‚f‚l‚ğÄ¶

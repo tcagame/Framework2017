@@ -19,6 +19,7 @@ public:
 	void finalize( );
 public:
 	void update( );
+	bool isPlayingSE( std::string filename );
 	void playSE( std::string filename, bool loop = false );
 	void stopSE( std::string filename );
 	void stopAllSE( );
