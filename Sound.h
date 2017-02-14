@@ -22,6 +22,7 @@ public:
 	bool isPlayingSE( std::string filename );
 	void playSE( std::string filename, bool loop = false );
 	void stopSE( std::string filename );
+	void loadSE( std::string filename );
 	void stopAllSE( );
 	void playBGM( std::string filename, bool loop = true );
 	void stopBGM( );
