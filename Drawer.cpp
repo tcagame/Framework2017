@@ -432,6 +432,18 @@ void Drawer::drawLine( int x1, int y1, int x2, int y2 ) {
 	DrawLine( x1, y1, x2, y2, 0xFFFFFF ) ;
 }
 
+void Drawer::drawLine( const Vector& pos1, const Vector& pos2 ) {
+	VECTOR p1;
+	p1.x = ( float )pos1.x;
+	p1.y = ( float )pos1.y;
+	p1.z = ( float )pos1.z;
+	VECTOR p2;
+	p2.x = ( float )pos2.x;
+	p2.y = ( float )pos2.y;
+	p2.z = ( float )pos2.z;
+	DrawLine3D( p1, p2, 0xFFFFFF );
+}
+
 void Drawer::drawString( int x, int y, const char* string, ... ) {
 	char buf[ 1024 ];
 	va_list ap;

@@ -103,6 +103,7 @@ public:
 	void setCircle( const Circle& circle );
 	void drawString( int x, int y, const char* string, ... );
 	void drawLine( int x1, int y1, int x2, int y2 );
+	void drawLine( const Vector& pos1, const Vector& pos2 );
 	void drawCircle( int x1, int y1, int radius );
 	void setCameraUp( const Vector& up );
 	void setCamera( const Vector& pos, const Vector& target );
