@@ -103,6 +103,16 @@ rotate( rotate_ ) {
 
 }
 
+Drawer::Circle::Circle( ) {
+
+}
+
+Drawer::Circle::Circle( const Vector& pos_, const double radius_ ) :
+pos( pos_ ),
+radius( radius_ ) {
+
+}
+
 DrawerPtr Drawer::getTask( ) {
 	ApplicationPtr fw = Application::getInstance( );
 	return std::dynamic_pointer_cast< Drawer >( fw->getTask( getTag( ) ) );
@@ -143,7 +153,8 @@ void Drawer::update( ) {
 	drawModelMDL( );
 	drawBillboard( );
 	drawEffect( );
-	drawSprite( ); 
+	drawSprite( );
+	drawCircle( );
 }
 
 void Drawer::drawModelMDL( ) {
@@ -215,6 +226,17 @@ void Drawer::drawSprite( ) {
 		}
 	}
 	_sprite_idx = 0;
+}
+
+
+void Drawer::drawCircle( ) {
+
+	for ( int i = 0; i < _circle_idx; i++ ) {
+		const Circle& circle = _circle[ i ];
+
+		DrawCircle( ( int )circle.pos.x, ( int )circle.pos.y, ( int )circle.radius, GetColor( 255, 0, 0 ), 0, 3 );
+	}
+	_circle_idx = 0;
 }
 
 void Drawer::drawBillboard( ) {
@@ -368,6 +390,12 @@ void Drawer::setEffect( const Effect& effect ) {
 	assert( _effect_idx < EFFECT_NUM );
 	_effect[ _effect_idx ] = effect;
 	_effect_idx++;
+}
+
+void Drawer::setCircle( const Circle& circle ) {
+	assert( _circle_idx < CIRCLE_NUM );
+	_circle[ _circle_idx ] = circle;
+	_circle_idx++;
 }
 
 void Drawer::flip( ) {
