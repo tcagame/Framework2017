@@ -107,6 +107,7 @@ public:
 	void drawCircle( int x1, int y1, int radius );
 	void setCameraUp( const Vector& up );
 	void setCamera( const Vector& pos, const Vector& target );
+	void resetFPS( );
 private:
 	void drawModelMV1( );
 	void drawModelMDL( );

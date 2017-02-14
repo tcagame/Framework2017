@@ -398,6 +398,11 @@ void Drawer::setCircle( const Circle& circle ) {
 	_circle_idx++;
 }
 
+void Drawer::resetFPS( ) {
+	_refresh_count = 0;
+	_start_time = GetNowCount( );
+}
+
 void Drawer::flip( ) {
 	if ( _refresh_count == 0 ) {
 		_start_time = GetNowCount( );
