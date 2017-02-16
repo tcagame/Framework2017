@@ -39,6 +39,8 @@ void Sound::loadSE( std::string filename ) {
 		return;
 	}
 
+	SetCreateSoundDataType( DX_SOUNDDATATYPE_MEMNOPRESS );
+
 	std::string path = _directory;
 	path += "/";
 	path +=  filename;
@@ -70,25 +72,39 @@ void Sound::stopSE( std::string filename ) {
 
 void Sound::playBGM( std::string filename, bool loop ) {
 	// ‘O‰ñ‚Ì‚a‚f‚l‚ğíœ
-	StopMusic( );
+	DeleteSoundMem( _bgm );
 
+	SetCreateSoundDataType( DX_SOUNDDATATYPE_FILE ) ;
+	
+	std::string path = _directory;
+	path += "/";
+	path +=  filename;
+	int id = LoadSoundMem( path.c_str( ) );
+	if ( id < 0 ) {
+		path = "../" + path;
+		id = LoadSoundMem( path.c_str( ) );
+	}
+	
+	_bgm = id;
+	
 	int flg = DX_PLAYTYPE_BACK;
 	if ( loop ) {
 		flg = DX_PLAYTYPE_LOOP;
 	}
+	
+	PlaySoundMem( _bgm, flg );
+}
 
-	// V‚µ‚¢‚a‚f‚l‚ğÄ¶
-	std::string path = _directory;
-	path += "/";
-	path +=  filename;
-	if ( PlayMusic( path.c_str( ), flg ) != 0 ) {
-		path = "../" + path;
-		PlayMusic( path.c_str( ), flg );
+void Sound::setVolumeBGM( double volume ) {
+	if ( _bgm < 0 ) {
+		return;
 	}
+	ChangeVolumeSoundMem( ( int )( volume * 255 ), _bgm ); 
 }
 
 void Sound::stopBGM( ) {
-	StopMusic( );
+	DeleteSoundMem( _bgm );
+	_bgm = -1;
 }
 
 void Sound::stopAllSE( ) {

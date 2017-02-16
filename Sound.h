@@ -26,8 +26,10 @@ public:
 	void stopAllSE( );
 	void playBGM( std::string filename, bool loop = true );
 	void stopBGM( );
+	void setVolumeBGM( double volume );
 private:
 	const char* _directory;
 	std::map< std::string, int > _se;
+	int _bgm;
 };
 
