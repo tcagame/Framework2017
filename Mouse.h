@@ -6,7 +6,7 @@
 
 PTR( Mouse );
 
-static enum MOUSE {
+enum MOUSE {
 	MOUSE_LEFT_BUTTON,
 	MOUSE_RIGHT_BUTTON,
 	MAX_MOUSE,

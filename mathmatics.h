@@ -41,7 +41,7 @@ struct Vector {
 
 	// ‹——£
 	inline double getLength() const {
-		double s[3] = {abs(x), abs(y), abs(z)};
+		double s[3] = { fabs(x), fabs(y), fabs(z)};
 		double n = s[0];
 		for (int i = 1; i < 3; i++) {
 			if (n < s[i]) n = s[i];
