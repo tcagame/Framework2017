@@ -332,6 +332,45 @@ void Drawer::loadEffect( int id, const char* filename ) {
 #	endif
 }
 
+void Drawer::createGraph( int res, int width, int height ) {
+	unloadGraph( res );
+	assert( res < GRAPHIC_ID_NUM );
+	_graphic_id[ res ] = MakeScreen( width, height, TRUE );
+}
+
+void Drawer::drawSpriteToGraph( int res, const Sprite& sprite ) {
+	SetDrawScreen( _graphic_id[ res ] );
+
+	switch ( sprite.blend ) {
+	case BLEND_ALPHA:
+		SetDrawBlendMode( DX_BLENDMODE_ALPHA, ( int )( 255 * sprite.ratio ) );
+		break;
+	case BLEND_ADD:
+		SetDrawBlendMode( DX_BLENDMODE_ADD  , ( int )( 255 * sprite.ratio ) );
+		break;
+	}
+
+	if ( sprite.trans.tw < 0 ) {
+		DrawGraph( sprite.trans.sx, sprite.trans.sy, _graphic_id[ sprite.res ], TRUE );
+	} else if ( sprite.trans.sy2 < 0 ) {
+		DrawRectGraph( sprite.trans.sx, sprite.trans.sy, sprite.trans.tx, sprite.trans.ty, sprite.trans.tw, sprite.trans.th, _graphic_id[ sprite.res ], TRUE, FALSE );
+	} else {
+		DrawRectExtendGraph(
+			sprite.trans.sx , sprite.trans.sy ,
+			sprite.trans.sx2, sprite.trans.sy2,
+			sprite.trans.tx , sprite.trans.ty ,
+			sprite.trans.tw , sprite.trans.th , _graphic_id[ sprite.res ], TRUE );
+	}
+
+	if ( sprite.blend != BLEND_NONE ) {
+		SetDrawBlendMode( DX_BLENDMODE_NOBLEND, 0 );
+	}
+
+	SetDrawScreen( DX_SCREEN_BACK );
+}
+
+
+
 void Drawer::loadGraph( int res, const char * filename ) {
 	unloadGraph( res );
 	std::string path = _directory;

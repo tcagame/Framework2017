@@ -92,6 +92,8 @@ public:
 	void loadMDLModel( int type, const char* filename, const char* texture_filename, Matrix matrix = Matrix( ) );
 	void loadGraph( int res, const char* filename );
 	void loadEffect( int id, const char* filename );
+	void createGraph( int res, int width, int height );
+	void drawSpriteToGraph( int res, const Sprite& sprite );
 	void unloadGraph( int res );
 	void unloadAllGraph( );
 	double getEndAnimTime( int res );
@@ -104,7 +106,6 @@ public:
 	void drawString( int x, int y, const char* string, ... );
 	void drawLine( int x1, int y1, int x2, int y2 );
 	void drawLine( const Vector& pos1, const Vector& pos2 );
-	void drawCircle( int x1, int y1, int radius );
 	void setCameraUp( const Vector& up );
 	void setCamera( const Vector& pos, const Vector& target );
 	void resetFPS( );
