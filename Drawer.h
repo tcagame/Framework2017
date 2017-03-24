@@ -94,6 +94,7 @@ public:
 	void loadEffect( int id, const char* filename );
 	void createGraph( int res, int width, int height );
 	void drawSpriteToGraph( int res, const Sprite& sprite );
+	void clearToGraph( int res );
 	void unloadGraph( int res );
 	void unloadAllGraph( );
 	double getEndAnimTime( int res );

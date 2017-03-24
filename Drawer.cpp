@@ -369,6 +369,13 @@ void Drawer::drawSpriteToGraph( int res, const Sprite& sprite ) {
 	SetDrawScreen( DX_SCREEN_BACK );
 }
 
+void Drawer::clearToGraph( int res ) {
+	SetDrawScreen( _graphic_id[ res ] );
+	ClearDrawScreen( );
+	SetDrawScreen( DX_SCREEN_BACK );
+
+}
+
 
 
 void Drawer::loadGraph( int res, const char * filename ) {
