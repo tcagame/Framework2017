@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Framework2017", "Framework2017.vcxproj", "{5EE8C2EE-5877-4647-BB7C-6BC53C390DE4}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Test", "Test\Test.vcxproj", "{4BF56A4C-2A56-4726-9021-9D9A8837D2A9}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AppModelMaker", "ModelMaker\AppModelMaker.vcxproj", "{D5154EB3-B253-4AE9-B80A-2D2478084B37}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{4BF56A4C-2A56-4726-9021-9D9A8837D2A9}.Debug|Win32.Build.0 = Debug|Win32
 		{4BF56A4C-2A56-4726-9021-9D9A8837D2A9}.Release|Win32.ActiveCfg = Release|Win32
 		{4BF56A4C-2A56-4726-9021-9D9A8837D2A9}.Release|Win32.Build.0 = Release|Win32
+		{D5154EB3-B253-4AE9-B80A-2D2478084B37}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D5154EB3-B253-4AE9-B80A-2D2478084B37}.Debug|Win32.Build.0 = Debug|Win32
+		{D5154EB3-B253-4AE9-B80A-2D2478084B37}.Release|Win32.ActiveCfg = Release|Win32
+		{D5154EB3-B253-4AE9-B80A-2D2478084B37}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
