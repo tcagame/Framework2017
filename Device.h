@@ -22,6 +22,9 @@ public:
 	int getDeviceNum( ) const;
 	char getDirX( int idx = 0 ) const;
 	char getDirY( int idx = 0 ) const;
+	char getRightDirX( int idx = 0 ) const;
+	char getRightDirY( int idx = 0 ) const;
+	
 	unsigned char getButton( int idx = 0 ) const;
 	unsigned char getPush( int idx = 0 ) const;
 public:
@@ -30,6 +33,8 @@ private:
 	struct DATA {
 		char x;
 		char y;
+		char rx;
+		char ry;
 		unsigned char button;
 		unsigned char push;
 	};

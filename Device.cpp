@@ -35,6 +35,8 @@ void Device::initialize( ) {
 	for ( int i = 0; i < MAX_JOYPAD_USE_NUM; i++ ) {
 		_data[ i ].x = 0;
 		_data[ i ].y = 0;
+		_data[ i ].rx = 0;
+		_data[ i ].ry = 0;
 		_data[ i ].button = 0;
 		_data[ i ].push = 0;
 	}
@@ -61,6 +63,15 @@ char Device::getDirX( int idx ) const {
 char Device::getDirY( int idx ) const {
 	return _data[ idx ].y;
 }
+
+char Device::getRightDirX( int idx ) const {
+	return _data[ idx ].rx;
+}
+
+char Device::getRightDirY( int idx ) const {
+	return _data[ idx ].ry;
+}
+
 
 unsigned char Device::getButton( int idx ) const {
 	return _data[ idx ].button;
@@ -94,6 +105,18 @@ void Device::update( ) {
 
 		_data[ i ].x = ( char )vec.x;
 		_data[ i ].y = ( char )vec.y;
+
+		GetJoypadAnalogInputRight( &x, &y, joypad_key );
+		vec.x = x / 1000.0;
+		vec.y = y / 1000.0;
+		vec.x += +( CheckHitKey( KEY_INPUT_NUMPAD6 ) != 0 );
+		vec.x += -( CheckHitKey( KEY_INPUT_NUMPAD4 ) != 0 );
+		vec.y += +( CheckHitKey( KEY_INPUT_NUMPAD2 ) != 0 );
+		vec.y += -( CheckHitKey( KEY_INPUT_NUMPAD8 ) != 0 );
+		vec = vec.normalize( ) * 100;
+
+		_data[ i ].rx = ( char )vec.x;
+		_data[ i ].ry = ( char )vec.y;
 
 		unsigned char button = _data[ i ].button;
 		_data[ i ].button = 0;
