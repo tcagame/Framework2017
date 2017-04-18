@@ -34,6 +34,9 @@ const unsigned char BUTTON_A    = 0x01; // INPUT_A ( 0b00000001 )
 const unsigned char BUTTON_B    = 0x02; // INPUT_B ( 0b00000010 )
 const unsigned char BUTTON_C    = 0x04; // INPUT_C ( 0b00000100 )
 const unsigned char BUTTON_D    = 0x08; // INPUT_D ( 0b00001000 )
+const unsigned char BUTTON_E    = 0x10; // INPUT_E ( 0b00010000 )
+const unsigned char BUTTON_F    = 0x20; // INPUT_F ( 0b00100000 )
+
 
 const unsigned char NOT_EXIST = 0x00;
 const unsigned char EXIST = 0x01;

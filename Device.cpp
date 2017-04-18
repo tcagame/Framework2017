@@ -145,5 +145,17 @@ void Device::update( ) {
 				_data[ i ].push |= BUTTON_D;
 			}
 		}
+		if ( ( key & PAD_INPUT_5 ) != 0 ) { 
+			_data[ i ].button |= BUTTON_E;
+			if ( ( button & BUTTON_E ) == 0 ) {
+				_data[ i ].push |= BUTTON_E;
+			}
+		}
+		if ( ( key & PAD_INPUT_6 ) != 0 ) { 
+			_data[ i ].button |= BUTTON_F;
+			if ( ( button & BUTTON_F ) == 0 ) {
+				_data[ i ].push |= BUTTON_F;
+			}
+		}
 	}
 }
