@@ -140,11 +140,11 @@ private:
 	std::array< Billboard, BILLBOARD_NUM > _billboard;
 	int _billboard_idx;
 
-	static const int MODEL_MDL_NUM = 500;
+	static const int MODEL_MDL_NUM = 5000;
 	std::array< ModelMDL, MODEL_MDL_NUM > _model_mdl;
 	int _model_mdl_idx;
 
-	static const int MODEL_NUM = 20;
+	static const int MODEL_NUM = 60;
 	std::array< ModelPtr, MODEL_NUM > _model;
 	
 	static const int EFFECT_ID_NUM = 1000;
