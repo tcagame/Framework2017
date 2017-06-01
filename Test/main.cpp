@@ -1,6 +1,6 @@
 #include "Application.h"
 #include "Drawer.h"
-#include "Keyboard.h"
+#include "Device.h"
 
 class Test : public Task {
 public:
@@ -13,41 +13,28 @@ public:
 
 	}
 
-	enum GRAPH {
-		GRAPH_SAMPLE,
-		GRAPH_SCREEN,
-	};
 
 	void initialize( ) {
-		DrawerPtr drawer = Drawer::getTask( );
-		drawer->loadGraph( GRAPH_SAMPLE, "sample.png" );
-		drawer->createGraph( GRAPH_SCREEN, 1024, 1024 );
 	}
 
 	void update( ) {
 		DrawerPtr drawer = Drawer::getTask( );
+		DevicePtr device = Device::getTask( );
 
-		{
-			Drawer::Transform trans( 0, 0 );
-			Drawer::Sprite sprite( trans, GRAPH_SAMPLE);
-			drawer->drawSpriteToGraph( GRAPH_SCREEN, sprite );
-		}
-
-		{
-			Drawer::Transform trans( 100, 0 );
-			Drawer::Sprite sprite( trans, GRAPH_SCREEN);
-			drawer->setSprite( sprite );
-		}
+		drawer->drawString(0, 100 * 1, "LEFT  X : %d", device->getDirX());
+		drawer->drawString(0, 100 * 2, "LEFT  Y : %d", device->getDirY());
+		drawer->drawString(0, 100 * 4, "RIGHT X : %d", device->getRightDirX());
+		drawer->drawString(0, 100 * 5, "RIGHT Y : %d", device->getRightDirY());
 	}
 };
 
 void main( ) {
 	TaskPtr test = TaskPtr( new Test );
 	TaskPtr drawer = TaskPtr( new Drawer( "Resource" ) );
-	TaskPtr keyboard = TaskPtr( new Keyboard( ) );
+	TaskPtr device = TaskPtr( new Device( ) );
 
 	ApplicationPtr app = Application::getInstance( );
 	app->addTask( Test::getTag( ), test );
 	app->addTask( Drawer::getTag( ), drawer );
-	app->addTask( Keyboard::getTag( ), keyboard );
+	app->addTask( Device::getTag( ), device );
 }

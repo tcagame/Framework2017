@@ -39,7 +39,9 @@ private:
 		unsigned char push;
 	};
 private:
+	void updateNoJoypad();
+	void updateJoypad();
+private:
 	std::array< DATA, MAX_JOYPAD_USE_NUM > _data;
 	int _num;
-	bool _is_not_connect;
 };

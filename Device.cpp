@@ -28,7 +28,8 @@ DevicePtr Device::getTask( ) {
 }
 
 
-Device::Device( ) {
+Device::Device( ) :
+_num( 0 ) {
 }
 
 void Device::initialize( ) {
@@ -49,11 +50,6 @@ Device::~Device( ) {
 void Device::resetup( ) {
 	ReSetupJoypad( );
 	_num = GetJoypadNum( );
-	_is_not_connect = false;
-	if ( _num < 1 ) {
-		_num = 1;
-		_is_not_connect = true;
-	}
 }
 
 char Device::getDirX( int idx ) const {
@@ -85,12 +81,72 @@ int Device::getDeviceNum( ) const {
 	return _num;
 }
 
-void Device::update( ) {
+void Device::update() {
+	if (_num < 1) {
+		updateNoJoypad();
+	} else {
+		updateJoypad();
+	}
+}
+
+void Device::updateNoJoypad() {
+	{
+		Vector vec;
+		vec.x += +(CheckHitKey(KEY_INPUT_RIGHT) != 0);
+		vec.x += -(CheckHitKey(KEY_INPUT_LEFT) != 0);
+		vec.y += +(CheckHitKey(KEY_INPUT_DOWN) != 0);
+		vec.y += -(CheckHitKey(KEY_INPUT_UP) != 0);
+		vec = vec.normalize() * 100;
+
+		_data[0].x = (char)vec.x;
+		_data[0].y = (char)vec.y;
+	}
+
+	{
+		Vector vec;
+		vec.x += +(CheckHitKey(KEY_INPUT_NUMPAD6) != 0);
+		vec.x += -(CheckHitKey(KEY_INPUT_NUMPAD4) != 0);
+		vec.y += +(CheckHitKey(KEY_INPUT_NUMPAD2) != 0);
+		vec.y += -(CheckHitKey(KEY_INPUT_NUMPAD8) != 0);
+		vec = vec.normalize() * 100;
+
+		_data[0].rx = (char)vec.x;
+		_data[0].ry = (char)vec.y;
+	}
+
+	unsigned char button = _data[0].button;
+	_data[0].button = 0;
+	_data[0].push = 0;
+
+	int input[6] = {
+		KEY_INPUT_Z,
+		KEY_INPUT_X,
+		KEY_INPUT_C,
+		KEY_INPUT_V,
+		KEY_INPUT_A,
+		KEY_INPUT_S,
+	};
+	unsigned char code[6] = {
+		BUTTON_A,
+		BUTTON_B,
+		BUTTON_C,
+		BUTTON_D,
+		BUTTON_E,
+		BUTTON_F,
+	};
+	for ( int i = 0; i < 6; i++ ) {
+		if ( CheckHitKey( input[ i ] ) ) {
+			_data[0].button |= code[ i ] ;
+			if ( ( button & code[ i ] ) == 0 ) {
+				_data[0].push |= code[ i ];
+			}
+		}
+	}
+}
+
+void Device::updateJoypad( ) {
 	for ( int i = 0; i < _num; i++ ) {
 		int joypad_key = JOYPADKEY[ i ];
-		if ( _is_not_connect ) {
-			joypad_key = DX_INPUT_KEY_PAD1;
-		}
 		int key = GetJoypadInputState( joypad_key );
 		Vector vec;
 		int x = 0, y = 0;
