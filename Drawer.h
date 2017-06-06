@@ -59,6 +59,11 @@ public:
 		ModelMDL( Vector pos_, int type_ );
 	};
 
+	struct ModelSelf {
+		ModelPtr model;
+		int graph;
+	};
+
 	struct Billboard {
 		Vector pos;
 		double size;
@@ -101,6 +106,7 @@ public:
 	void setSprite( const Sprite& sprite );
 	void setModelMV1( const ModelMV1& model );
 	void setModelMDL( const ModelMDL& model_mdl );
+	void setModelSelf( const ModelSelf& model_self );
 	void setBillboard( const Billboard& billboard );
 	void setEffect( const Effect& effect );
 	void setCircle( const Circle& circle );
@@ -113,6 +119,7 @@ public:
 private:
 	void drawModelMV1( );
 	void drawModelMDL( );
+	void drawModelSelf( );
 	void drawSprite( );
 	void drawBillboard( );
 	void drawEffect( );
@@ -143,6 +150,10 @@ private:
 	static const int MODEL_MDL_NUM = 5000;
 	std::array< ModelMDL, MODEL_MDL_NUM > _model_mdl;
 	int _model_mdl_idx;
+	
+	static const int MODEL_SELF_NUM = 200;
+	std::array< ModelSelf, MODEL_SELF_NUM > _model_self;
+	int _model_self_idx;
 
 	static const int MODEL_NUM = 60;
 	std::array< ModelPtr, MODEL_NUM > _model;

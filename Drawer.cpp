@@ -151,6 +151,7 @@ void Drawer::update( ) {
 
 	drawModelMV1( );
 	drawModelMDL( );
+	drawModelSelf( );
 	drawBillboard( );
 	drawEffect( );
 	drawSprite( );
@@ -165,6 +166,13 @@ void Drawer::drawModelMDL( ) {
 		_model[ type ]->draw( );
 	}
 	_model_mdl_idx = 0;
+}
+
+void Drawer::drawModelSelf( ) {
+	for ( int i = 0; i < _model_self_idx; i++ ) {
+		_model_self[ i ].model->draw( _graphic_id[ _model_self[ i ].graph ], true );
+	}
+	_model_self_idx = 0;
 }
 
 void Drawer::drawModelMV1( ) {
@@ -424,6 +432,13 @@ void Drawer::setModelMDL( const ModelMDL& model_mdl ) {
 	assert( _model_mdl_idx < MODEL_MDL_NUM );
 	_model_mdl[ _model_mdl_idx ] = model_mdl;
 	_model_mdl_idx++;
+}
+
+void Drawer::setModelSelf( const ModelSelf& model_self ) {
+	assert( _model_self_idx < MODEL_SELF_NUM );
+	assert( _model_self_idx < 1 );
+	_model_self[ _model_mdl_idx ] = model_self;
+	_model_self_idx++;
 }
 
 void Drawer::setBillboard( const Billboard& billboard ) {
