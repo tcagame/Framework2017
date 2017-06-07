@@ -169,10 +169,16 @@ void Drawer::drawModelMDL( ) {
 }
 
 void Drawer::drawModelSelf( ) {
+	SetWriteZBuffer3D( FALSE ) ;
+	SetDrawBlendMode( DX_BLENDMODE_ADD, 255 );
+
 	for ( int i = 0; i < _model_self_idx; i++ ) {
 		_model_self[ i ].model->draw( _graphic_id[ _model_self[ i ].graph ], true );
 	}
 	_model_self_idx = 0;
+	
+	SetDrawBlendMode( DX_BLENDMODE_NOBLEND, 0 );
+	SetWriteZBuffer3D( TRUE ) ;
 }
 
 void Drawer::drawModelMV1( ) {
