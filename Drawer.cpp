@@ -174,6 +174,7 @@ void Drawer::drawModelSelf( ) {
 
 	for ( int i = 0; i < _model_self_idx; i++ ) {
 		_model_self[ i ].model->draw( _graphic_id[ _model_self[ i ].graph ], true );
+		_model_self[ i ].model.reset( );
 	}
 	_model_self_idx = 0;
 	
@@ -442,8 +443,7 @@ void Drawer::setModelMDL( const ModelMDL& model_mdl ) {
 
 void Drawer::setModelSelf( const ModelSelf& model_self ) {
 	assert( _model_self_idx < MODEL_SELF_NUM );
-	assert( _model_self_idx < 1 );
-	_model_self[ _model_mdl_idx ] = model_self;
+	_model_self[ _model_self_idx ] = model_self;
 	_model_self_idx++;
 }
 
