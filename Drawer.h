@@ -62,6 +62,7 @@ public:
 	struct ModelSelf {
 		ModelPtr model;
 		int graph;
+		bool add;
 	};
 
 	struct Billboard {
