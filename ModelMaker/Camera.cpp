@@ -35,21 +35,21 @@ void Camera::update( ) {
 	KeyboardPtr keyboard = Keyboard::getTask( );
 
 	Vector mouse_pos = mouse->getPos( );
-
-	Vector diff = _before_mouse_pos - mouse_pos;
-	_before_mouse_pos = mouse_pos;
-
-	if ( diff.x != 0 ) {
-		double angle = ( 10 * PI / 180 ) * diff.normalize( ).x;
-		Matrix mat = Matrix::makeTransformRotation( Vector( 0, 0, 1 ), angle );
-		_to_pos = mat.multiply( _to_pos );
+	if ( mouse->isPushLeftButton( ) ) {
+		_before_mouse_pos = mouse_pos;
 	}
-
-	if ( diff.y != 0 ) {
-		Vector axis = _to_pos.cross( Vector( 0.0, 0.0, 1.0 ) );
-		double angle = ( 5 * PI / 180 ) * diff.normalize( ).y;
-		Matrix mat = Matrix::makeTransformRotation( axis, angle );
-		_to_pos = mat.multiply( _to_pos );
+	if ( mouse->isHoldLeftButton( ) ) {
+		Vector diff = _before_mouse_pos - mouse_pos;
+		diff.y *= -1;
+		if ( diff.getLength( ) != 0 ) {
+			Matrix rot = Matrix::makeTransformRotation( Vector( 0, 0, 1 ).cross( _to_pos ), Vector( 0, 0, 1 ).angle( _to_pos ) );
+			Vector pos = _target + _to_pos;
+			Vector vec = rot.multiply( diff );
+			pos += vec;
+			double length = _to_pos.getLength( );
+			_to_pos = ( pos - _target ).normalize( ) * length;
+		}
+		_before_mouse_pos = mouse_pos;
 	}
 
 	int wheel = mouse->getWheelRotValue( );

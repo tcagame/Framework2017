@@ -29,6 +29,7 @@ private:
 	void save( );
 	void view( );
 	void loadTexture( );
+	void drawCoordinateLine( ) const;
 private:
 	STATE _state;
 	ModelPtr _model;

@@ -7,6 +7,7 @@
 
 const int INPUT_X = 100;
 const int INPUT_Y = 100;
+const int COORDINATE_LINE_RANGE = 20;
 
 ModelMakerPtr ModelMaker::getTask( ) {
 	ApplicationPtr app = Application::getInstance( );
@@ -141,6 +142,9 @@ void ModelMaker::view( ) {
 	if ( _model ) {
 		_model->draw( _texture );
 	}
+	DrawString( 0, 0, "F1:Load   F2:Texture   F5:save   XYZ:rot", GetColor( 255, 255, 255 ) );
+	drawCoordinateLine( );
+
 	ScreenFlip( );
 }
 
@@ -159,5 +163,47 @@ void ModelMaker::loadTexture( ) {
 	_texture = LoadGraph( filename.c_str( ) );
 	if ( _texture < 0 ) {
 		_texture = DX_NONE_GRAPH;
+	}
+}
+
+void ModelMaker::drawCoordinateLine( ) const {
+	int color_gray = GetColor( 100, 100, 100 );
+	for ( int i = 0; i < 2; i++ ) {
+		VECTOR pos1 = VGet( 0, 0, 0 );
+		VECTOR pos2 = VGet( 0, 0, 0 );
+		if ( i == 0 ) {
+			pos2.x = COORDINATE_LINE_RANGE;
+		} else {
+			pos2.y = COORDINATE_LINE_RANGE;
+		}
+		for ( int j = 0; j < COORDINATE_LINE_RANGE * 2; j++ ) {
+			if ( i == 0 ) {
+				pos1.y += 0.5;
+				pos2.y += 0.5;
+			} else {
+				pos1.x += 0.5;
+				pos2.x += 0.5;
+			}
+			DrawLine3D( pos1, pos2, color_gray );
+		}
+	}
+	const int COLOR[ 3 ] = {
+		GetColor( 255, 0, 0 ),
+		GetColor( 0, 255, 0 ),
+		GetColor( 0, 0, 255 )
+	};
+	for ( int i = 0; i < 3; i++ ) {
+		VECTOR pos1 = VGet( 0, 0, 0 );
+		VECTOR pos2 = VGet( 0, 0, 0 );
+		if ( i == 0 ) {
+			pos2.x = COORDINATE_LINE_RANGE;
+		}
+		if ( i == 1 ) {
+			pos2.y = COORDINATE_LINE_RANGE;
+		}
+		if ( i == 2 ) {
+			pos2.z = COORDINATE_LINE_RANGE;
+		}
+		DrawLine3D( pos1, pos2, COLOR[ i ] );
 	}
 }
