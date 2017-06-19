@@ -7,6 +7,7 @@
 #include "Drawer.h"
 
 const Vector START_TO_POS = Vector( 0, 50, 50 );
+const double ROT_SPEED = 0.01;
 
 CameraPtr Camera::getTask( ) {
 	ApplicationPtr app = Application::getInstance( );
@@ -40,14 +41,15 @@ void Camera::update( ) {
 	}
 	if ( mouse->isHoldLeftButton( ) ) {
 		Vector diff = _before_mouse_pos - mouse_pos;
-		diff.y *= -1;
-		if ( diff.getLength( ) != 0 ) {
-			Matrix rot = Matrix::makeTransformRotation( Vector( 0, 0, 1 ).cross( _to_pos ), Vector( 0, 0, 1 ).angle( _to_pos ) );
-			Vector pos = _target + _to_pos;
-			Vector vec = rot.multiply( diff );
-			pos += vec;
-			double length = _to_pos.getLength( );
-			_to_pos = ( pos - _target ).normalize( ) * length;
+		if ( diff.x != 0 ) {
+			Vector axis = Vector( 0, 0, 1 );
+			Matrix rot = Matrix::makeTransformRotation( Vector( 0, 0, 1 ), diff.x * ROT_SPEED );
+			_to_pos = rot.multiply( _to_pos );
+		}
+		if ( diff.y != 0 ) {
+			Vector axis = Vector( _to_pos.x, -_to_pos.y ).normalize( );
+			Matrix rot = Matrix::makeTransformRotation( axis, diff.y * ROT_SPEED );
+			_to_pos = rot.multiply( _to_pos );
 		}
 		_before_mouse_pos = mouse_pos;
 	}

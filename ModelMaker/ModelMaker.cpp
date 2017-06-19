@@ -187,7 +187,7 @@ void ModelMaker::drawCoordinateLine( ) const {
 			DrawLine3D( pos1, pos2, color_gray );
 		}
 	}
-	const int COLOR[ 3 ] = {
+	const unsigned int COLOR[ 3 ] = {
 		GetColor( 255, 0, 0 ),
 		GetColor( 0, 255, 0 ),
 		GetColor( 0, 0, 255 )
