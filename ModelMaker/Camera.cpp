@@ -47,7 +47,7 @@ void Camera::update( ) {
 			_to_pos = rot.multiply( _to_pos );
 		}
 		if ( diff.y != 0 ) {
-			Vector axis = Vector( _to_pos.x, -_to_pos.y ).normalize( );
+			Vector axis = Vector( _to_pos.y, -_to_pos.x ).normalize( );
 			Matrix rot = Matrix::makeTransformRotation( axis, diff.y * ROT_SPEED );
 			_to_pos = rot.multiply( _to_pos );
 		}

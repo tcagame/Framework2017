@@ -108,6 +108,31 @@ void ModelMaker::view( ) {
 		Matrix matrix = Matrix::makeTransformRotation( Vector( 0, 0, 1 ), PI2 / 4 ); // ZŽ²‚É90“x‰ñ“]
 		_model->multiply( matrix );
 	}
+
+	if ( keyboard->isPushKey( "NUM8" ) ) {
+		Matrix matrix = Matrix::makeTransformTranslation( Vector( 0, 0.5, 0 ) );
+		_model->multiply( matrix );
+	}
+	if ( keyboard->isPushKey( "NUM2" ) ) {
+		Matrix matrix = Matrix::makeTransformTranslation( Vector( 0, -0.5, 0 ) );
+		_model->multiply( matrix );
+	}
+	if ( keyboard->isPushKey( "NUM4" ) ) {
+		Matrix matrix = Matrix::makeTransformTranslation( Vector( 0.5, 0, 0 ) );
+		_model->multiply( matrix );
+	}
+	if ( keyboard->isPushKey( "NUM6" ) ) {
+		Matrix matrix = Matrix::makeTransformTranslation( Vector( -0.5, 0, 0 ) );
+		_model->multiply( matrix );
+	}
+	if ( keyboard->isPushKey( "+" ) ) {
+		Matrix matrix = Matrix::makeTransformTranslation( Vector( 0, 0, 0.5 ) );
+		_model->multiply( matrix );
+	}
+	if ( keyboard->isPushKey( "-" ) ) {
+		Matrix matrix = Matrix::makeTransformTranslation( Vector( 0, 0, -0.5 ) );
+		_model->multiply( matrix );
+	}
 	
 	if ( keyboard->isPushKey( "A" ) ) {
 		int count = _model->getPolygonNum( ) * 3;
