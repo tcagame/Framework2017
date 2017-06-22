@@ -63,6 +63,7 @@ public:
 		ModelPtr model;
 		int graph;
 		bool add;
+		bool z_buffer;
 	};
 
 	struct Billboard {

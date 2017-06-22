@@ -102,11 +102,16 @@ void Model::setPos( Vector pos ) {
 	diff.x = _impl->_vertex[ 0 ].pos.x - ( float )_origin_pos.x;
 	diff.y = _impl->_vertex[ 0 ].pos.y - ( float )_origin_pos.y;
 	diff.z = _impl->_vertex[ 0 ].pos.z - ( float )_origin_pos.z;
+	
+	VECTOR move;
+	move.x = ( float )pos.x - diff.x;
+	move.y = ( float )pos.y - diff.y;
+	move.z = ( float )pos.z - diff.z;
 
 	for ( int i = 0; i < ( int )_impl->_polygon_num * 3; i++ ) {
-		_impl->_vertex[ i ].pos.x += ( float )pos.x - diff.x;
-		_impl->_vertex[ i ].pos.y += ( float )pos.y - diff.y;
-		_impl->_vertex[ i ].pos.z += ( float )pos.z - diff.z;
+		_impl->_vertex[ i ].pos.x += move.x;
+		_impl->_vertex[ i ].pos.y += move.y;
+		_impl->_vertex[ i ].pos.z += move.z;
 	}
 }
 
@@ -133,6 +138,9 @@ void Model::multiply( Matrix matrix ) {
 		pos = matrix.multiply( pos );
 		_impl->_vertex[ i ].pos = VGet( ( float )pos.x, ( float )pos.y, ( float )pos.z );
 	}
+	_origin_pos.x = _impl->_vertex[ 0 ].pos.x;
+	_origin_pos.y = _impl->_vertex[ 0 ].pos.y;
+	_origin_pos.z = _impl->_vertex[ 0 ].pos.z;
 }
 
 void Model::mergeModel( ModelConstPtr model ) {
@@ -165,6 +173,13 @@ ModelImplConstPtr Model::getModelImpl( ) const {
 	return _impl;
 }
 
+Vector Model::getPos( ) const {
+	Vector pos;
+	pos.x = _impl->_vertex[ 0 ].pos.x - _origin_pos.x;
+	pos.y = _impl->_vertex[ 0 ].pos.y - _origin_pos.y;
+	pos.z = _impl->_vertex[ 0 ].pos.z - _origin_pos.z;
+	return pos;
+}
 
 Vector Model::getPoint( int idx ) const {
 	return Vector(

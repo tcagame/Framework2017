@@ -43,6 +43,7 @@ public:
 	void setTexture( const char* texture_path );
 	VERTEX getVERTEX( int idx );
 	Vector getPoint( int idx ) const;
+	Vector getPos( ) const;
 	ModelImplConstPtr getModelImpl( ) const;
 	int getTextureHandle( const char* filename );
 private:
