@@ -78,6 +78,7 @@ public:
 	
 	struct Effect {
 		int id;
+		int handle;
 		Vector pos;
 		Vector rotate;
 		double size;
@@ -110,7 +111,8 @@ public:
 	void setModelMDL( const ModelMDL& model_mdl );
 	void setModelSelf( const ModelSelf& model_self );
 	void setBillboard( const Billboard& billboard );
-	void setEffect( const Effect& effect );
+	void setEffectPos( const Effect& effect, const Vector& pos );
+	void setEffect( Effect& effect );
 	void setCircle( const Circle& circle );
 	void drawString( int x, int y, const char* string, ... );
 	void drawLine( int x1, int y1, int x2, int y2 );
@@ -163,10 +165,6 @@ private:
 	static const int EFFECT_ID_NUM = 1000;
 	std::array< int, EFFECT_ID_NUM > _effect_id;
 
-	static const int EFFECT_NUM = 1000;
-	std::array< Effect, EFFECT_NUM > _effect;
-	int _effect_idx;
-	
 	static const int CIRCLE_NUM = 1000;
 	std::array< Circle, CIRCLE_NUM > _circle;
 	int _circle_idx;

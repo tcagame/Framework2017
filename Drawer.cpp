@@ -92,14 +92,16 @@ ratio( ratio_ ) {
 }
 
 Drawer::Effect::Effect( ) :
-id( -1 ) {
+id( -1 ),
+handle( -1 ) {
 }
 
 Drawer::Effect::Effect( int id_, const Vector& pos_, double size_, const Vector& rotate_ ) :
 id( id_),
 pos( pos_ ),
 size( size_ ),
-rotate( rotate_ ) {
+rotate( rotate_ ),
+handle( -1 ) {
 
 }
 
@@ -285,21 +287,6 @@ void Drawer::drawBillboard( ) {
 
 void Drawer::drawEffect( ) {
 # if EFFECKSEER
-		//EFFECKSEER描画の為に必要なdraw関数
-		int check = DrawString( 0, -100, "Effeksserのための文字描画", GetColor( 255, 255, 255 ) );
-		
-		for ( int i = 0; i < _effect_idx; i++ ) {
-			const Effect& effect = _effect[ i ];
-			
-			int handle = PlayEffekseer3DEffect( effect.id );
-			float size = ( float )effect.size;
-			SetScalePlayingEffekseer3DEffect( handle,
-				size, size, size );
-			SetRotationPlayingEffekseer3DEffect( handle,
-				( float )effect.rotate.x, ( float )effect.rotate.y, ( float )effect.rotate.z );
-			SetPosPlayingEffekseer3DEffect( handle,
-				( float )effect.pos.x, ( float )effect.pos.y, ( float )effect.pos.z );
-		}
 
 		// Effekseerにより再生中のエフェクトを更新する。
 		UpdateEffekseer3D( );
@@ -461,10 +448,26 @@ void Drawer::setBillboard( const Billboard& billboard ) {
 	_billboard_idx++;
 }
 
-void Drawer::setEffect( const Effect& effect ) {
-	assert( _effect_idx < EFFECT_NUM );
-	_effect[ _effect_idx ] = effect;
-	_effect_idx++;
+void Drawer::setEffectPos( const Effect& effect, const Vector& pos ) {
+#	if EFFECKSEER
+		if ( effect.handle >= 0 ) { 
+			SetPosPlayingEffekseer3DEffect( effect.handle,
+				( float )effect.pos.x, ( float )effect.pos.y, ( float )effect.pos.z );
+		}
+#	endif
+}
+
+void Drawer::setEffect( Effect& effect ) {
+#	if EFFECKSEER
+		effect.handle = PlayEffekseer3DEffect( effect.id );
+		float size = ( float )effect.size;
+		SetScalePlayingEffekseer3DEffect( effect.handle,
+			size, size, size );
+		SetRotationPlayingEffekseer3DEffect( handle,
+			( float )effect.rotate.x, ( float )effect.rotate.y, ( float )effect.rotate.z );
+		SetPosPlayingEffekseer3DEffect( handle,
+			( float )effect.pos.x, ( float )effect.pos.y, ( float )effect.pos.z );
+#	endif
 }
 
 void Drawer::setCircle( const Circle& circle ) {
