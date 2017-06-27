@@ -111,7 +111,7 @@ public:
 	void setModelMDL( const ModelMDL& model_mdl );
 	void setModelSelf( const ModelSelf& model_self );
 	void setBillboard( const Billboard& billboard );
-	void setEffectPos( const Effect& effect, const Vector& pos );
+	void setEffectPos( const Effect& effect );
 	void setEffect( Effect& effect );
 	void setCircle( const Circle& circle );
 	void drawString( int x, int y, const char* string, ... );

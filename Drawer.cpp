@@ -139,7 +139,6 @@ void Drawer::initialize( ) {
 	_sprite_idx = 0;
 	_model_mv1_idx = 0;
 	_billboard_idx = 0;
-	_effect_idx = 0;
 
 	_refresh_count = 0;
 	_fps = FPS;
@@ -295,8 +294,6 @@ void Drawer::drawEffect( ) {
 		DrawEffekseer3D( );
 
 #	endif
-
-	_effect_idx = 0;
 }
 
 void Drawer::loadMV1Model( int motion, const char* filename ) {
@@ -448,7 +445,7 @@ void Drawer::setBillboard( const Billboard& billboard ) {
 	_billboard_idx++;
 }
 
-void Drawer::setEffectPos( const Effect& effect, const Vector& pos ) {
+void Drawer::setEffectPos( const Effect& effect ) {
 #	if EFFECKSEER
 		if ( effect.handle >= 0 ) { 
 			SetPosPlayingEffekseer3DEffect( effect.handle,
@@ -463,9 +460,9 @@ void Drawer::setEffect( Effect& effect ) {
 		float size = ( float )effect.size;
 		SetScalePlayingEffekseer3DEffect( effect.handle,
 			size, size, size );
-		SetRotationPlayingEffekseer3DEffect( handle,
+		SetRotationPlayingEffekseer3DEffect( effect.handle,
 			( float )effect.rotate.x, ( float )effect.rotate.y, ( float )effect.rotate.z );
-		SetPosPlayingEffekseer3DEffect( handle,
+		SetPosPlayingEffekseer3DEffect( effect.handle,
 			( float )effect.pos.x, ( float )effect.pos.y, ( float )effect.pos.z );
 #	endif
 }
