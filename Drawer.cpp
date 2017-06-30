@@ -286,13 +286,12 @@ void Drawer::drawBillboard( ) {
 
 void Drawer::drawEffect( ) {
 # if EFFECKSEER
-
+		DrawString( 0, 0, "", GetColor( 0, 0, 0 ) );
 		// Effekseerにより再生中のエフェクトを更新する。
 		UpdateEffekseer3D( );
 
 		// Effekseerにより再生中のエフェクトを描画する。
 		DrawEffekseer3D( );
-
 #	endif
 }
 
