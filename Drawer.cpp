@@ -143,7 +143,9 @@ void Drawer::initialize( ) {
 	_refresh_count = 0;
 	_fps = FPS;
 	_start_time = 0;
-
+#if EFFECKSEER
+	_effekseer_fix_graph = LoadGraph( "../Resource/effecksser_fix.png" );
+#endif
 }
 
 void Drawer::update( ) {
@@ -286,7 +288,7 @@ void Drawer::drawBillboard( ) {
 
 void Drawer::drawEffect( ) {
 # if EFFECKSEER
-		DrawString( 0, 0, "", GetColor( 0, 0, 0 ) );
+		DrawGraph( 0, 0, _effekseer_fix_graph, TRUE );
 		// Effekseerにより再生中のエフェクトを更新する。
 		UpdateEffekseer3D( );
 

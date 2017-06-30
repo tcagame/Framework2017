@@ -171,6 +171,7 @@ private:
 
 	int _refresh_count;
 	int _start_time;
+	int _effekseer_fix_graph;
 	double _fps;
 
 	Vector _camera_up;
